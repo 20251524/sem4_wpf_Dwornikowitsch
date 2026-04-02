@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace VampireSurvivorsProjekt
 {
@@ -22,7 +23,12 @@ namespace VampireSurvivorsProjekt
         bool sIsPressed = false;
         bool dIsPressed = false;
         Player player;
-        DispatcherTimer gameTimer = new DispatcherTimer();
+        Stopwatch stopwatch = new Stopwatch();
+        double lastTime;
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,18 +37,21 @@ namespace VampireSurvivorsProjekt
             Activate();
             Focus();
             player = new Player();
-            gameTimer.Interval = TimeSpan.FromMilliseconds(16); // ~60 FPS
-            gameTimer.Tick += GameLoop;
-            gameTimer.Start();
-            
-           
+            stopwatch.Start();
+            lastTime = stopwatch.Elapsed.TotalSeconds;
+            CompositionTarget.Rendering += GameLoop;
+
 
         }
 
         private void GameLoop(object sender, EventArgs e)
         {
+            double currentTime = stopwatch.Elapsed.TotalSeconds;
+            double deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+            ;
 
-            player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed);
+            player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
             Canvas.SetLeft(PlayerCharacter, player.playerXPos);
             Canvas.SetTop(PlayerCharacter, player.playerYPos);
         }
