@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Windows.Media.Media3D;
 
 namespace VampireSurvivorsProjekt
 {
@@ -23,6 +24,7 @@ namespace VampireSurvivorsProjekt
         bool sIsPressed = false;
         bool dIsPressed = false;
         Player player;
+        Enemy enemy;
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
 
@@ -37,6 +39,7 @@ namespace VampireSurvivorsProjekt
             Activate();
             Focus();
             player = new Player();
+            enemy = new Enemy();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -49,11 +52,14 @@ namespace VampireSurvivorsProjekt
             double currentTime = stopwatch.Elapsed.TotalSeconds;
             double deltaTime = currentTime - lastTime;
             lastTime = currentTime;
-            ;
 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
             Canvas.SetLeft(PlayerCharacter, player.playerXPos);
             Canvas.SetTop(PlayerCharacter, player.playerYPos);
+            enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
+            Canvas.SetLeft(EnemyCharacter, enemy.enemyXPos);
+            Canvas.SetTop(EnemyCharacter, enemy.enemyYPos);
+            
         }
 
         private void Form_KeyDown(object sender, KeyEventArgs e)
