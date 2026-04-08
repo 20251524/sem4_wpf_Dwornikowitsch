@@ -11,7 +11,7 @@
     <Grid>
 
         <Canvas x:Name="GameCanvas" Background="Green">
-            <Rectangle Name="PlayerCharacter" Fill="Red" Height="50" Width="50" ></Rectangle>
+            <Rectangle x:Name="PlayerCharacter" Fill="Red" Height="50" Width="50" ></Rectangle>
             <Ellipse Name="EnemyCharacter" Fill="Black" Width="40" Height="40" Canvas.Left="525" Canvas.Top="290"></Ellipse>
 
         </Canvas>

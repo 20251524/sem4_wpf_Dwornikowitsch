@@ -12,8 +12,8 @@ namespace VampireSurvivorsProjekt
     internal class Player
     {
 
-        public double playerXPos = 500;
-        public double playerYPos = 500;
+        public double playerXPos = 100;
+        public double playerYPos = 100;
         double playerSpeed = 150;
         double xDirection;
         double yDirection;
@@ -49,6 +49,10 @@ namespace VampireSurvivorsProjekt
             {
                 yDirection += 1;
             }
+            if(sIsPressed && wIsPressed || wIsPressed == false && sIsPressed == false )
+            {
+                yDirection = 0;
+            }
             if (aIsPressed == true)
             {
                 xDirection -= 1;
@@ -57,7 +61,11 @@ namespace VampireSurvivorsProjekt
             {
                 xDirection += 1;
             }
-            
+            if (aIsPressed && dIsPressed || aIsPressed == false && dIsPressed == false)
+            {
+                xDirection = 0;
+            }
+
             double length = Math.Sqrt(yDirection * yDirection + xDirection * xDirection);
             if(length > 0)
             {

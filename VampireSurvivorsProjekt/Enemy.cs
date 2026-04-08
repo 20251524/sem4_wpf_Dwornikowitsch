@@ -20,8 +20,12 @@ namespace VampireSurvivorsProjekt
             xDirection = playerXPos - enemyXPos;
             yDirection = playerYPos - enemyYPos;
             double length = Math.Sqrt(xDirection * xDirection + yDirection * yDirection);
-            xDirection = xDirection /length;
-            yDirection = yDirection /length;
+            if(length > 0)
+            {
+                xDirection = xDirection / length;
+                yDirection = yDirection / length;
+            }
+
 
             enemyXPos += xDirection * enemySpeed * deltaTime;
             enemyYPos += yDirection * enemySpeed * deltaTime;

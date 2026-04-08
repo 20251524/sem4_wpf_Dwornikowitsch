@@ -24,7 +24,7 @@ namespace VampireSurvivorsProjekt
         bool sIsPressed = false;
         bool dIsPressed = false;
         Player player;
-        Enemy enemy;
+        Enemy enemy;      
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
 
