@@ -66,8 +66,8 @@ namespace VampireSurvivorsProjekt
                 xDirection = 0;
             }
 
-            double length = Math.Sqrt(yDirection * yDirection + xDirection * xDirection);
-            if(length > 0)
+            double length = Math.Sqrt(yDirection * yDirection + xDirection * xDirection); // berechnung zur vektor normalisierung
+            if (length > 0) // Division durch 0 verhindern
             {
                 xDirection = xDirection / length;
                 yDirection = yDirection / length;

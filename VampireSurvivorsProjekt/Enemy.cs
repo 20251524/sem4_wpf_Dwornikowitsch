@@ -31,15 +31,15 @@ namespace VampireSurvivorsProjekt
             enemychar.Fill = blackBrush;
             enemychar.Height = 50; 
             enemychar.Width = 50;
-            GameCanvas.Children.Add(enemychar);
+            GameCanvas.Children.Add(enemychar); // Neuen Kreis im Canvas erstellen bei jedem neuen enemy
         }
 
         public void Update(double playerXPos, double playerYPos, double deltaTime)
         {
             xDirection = playerXPos - enemyXPos;
             yDirection = playerYPos - enemyYPos;
-            double length = Math.Sqrt(xDirection * xDirection + yDirection * yDirection);
-            if(length > 0)
+            double length = Math.Sqrt(xDirection * xDirection + yDirection * yDirection); // berechnung zur vektor normalisierung
+            if(length > 0) // Division durch 0 verhindern
             {
                 xDirection = xDirection / length;
                 yDirection = yDirection / length;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,16 +56,41 @@ namespace VampireSurvivorsProjekt
             double currentTime = stopwatch.Elapsed.TotalSeconds;
             double deltaTime = currentTime - lastTime;
             lastTime = currentTime;
-            count++;
-            if(count >= 100)
+
+            //gegner außerhalb des sichtbaren bereichs spawnen
+            count++; 
+            if(count >= 200) 
             {
-                enemies.Add(new Enemy(20, 20, 50, GameCanvas));
-                count = 0;
+                Random random = new Random();
+                int rnd  =  random.Next(1,5);
+                switch (rnd)
+                {
+                    case 1:
+                        enemies.Add(new Enemy(random.Next(1280), -50, 50, GameCanvas));
+                        count = 0;
+                        break;
+                        
+                    case 2:
+                        enemies.Add(new Enemy(random.Next(1280), 770, 50, GameCanvas));
+                        count = 0;
+                        break;
+                    case 3:
+                        enemies.Add(new Enemy(-50, random.Next(720), 200, GameCanvas));
+                        count = 0;
+                        break;
+                    case 4:
+                        enemies.Add(new Enemy(1330, random.Next(720), 200, GameCanvas));
+                        count = 0;
+                        break;
+                }
             }
 
+            //player 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
             Canvas.SetLeft(PlayerCharacter, player.playerXPos);
             Canvas.SetTop(PlayerCharacter, player.playerYPos);
+
+            //enemy
             foreach (Enemy enemy in enemies)
             {
                 enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
