@@ -1,16 +1,17 @@
-﻿using System.Text;
+﻿using System;
+using System.Diagnostics;
+using System.Text;
 using System.Windows;
-using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics;
-using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace VampireSurvivorsProjekt
 {
@@ -24,10 +25,10 @@ namespace VampireSurvivorsProjekt
         bool sIsPressed = false;
         bool dIsPressed = false;
         Player player;
-        Enemy enemy;      
+        List<Enemy> enemies;      
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
-
+        double count = 0;
 
 
 
@@ -39,7 +40,9 @@ namespace VampireSurvivorsProjekt
             Activate();
             Focus();
             player = new Player();
-            enemy = new Enemy();
+            enemies = new List<Enemy>();
+            enemies.Add(new Enemy(40, 40, 100, GameCanvas));
+            enemies.Add(new Enemy(20, 20, 50, GameCanvas));
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -52,13 +55,23 @@ namespace VampireSurvivorsProjekt
             double currentTime = stopwatch.Elapsed.TotalSeconds;
             double deltaTime = currentTime - lastTime;
             lastTime = currentTime;
+            count++;
+            if(count >= 100)
+            {
+                enemies.Add(new Enemy(20, 20, 50, GameCanvas));
+                count = 0;
+            }
 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
             Canvas.SetLeft(PlayerCharacter, player.playerXPos);
             Canvas.SetTop(PlayerCharacter, player.playerYPos);
-            enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
-            Canvas.SetLeft(EnemyCharacter, enemy.enemyXPos);
-            Canvas.SetTop(EnemyCharacter, enemy.enemyYPos);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
+                Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos);
+                Canvas.SetTop(enemy.enemychar, enemy.enemyYPos);
+            }
+
             
         }
 

@@ -6,21 +6,20 @@
         xmlns:local="clr-namespace:VampireSurvivorsProjekt"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280" ResizeMode="NoResize">
-    
-   
+
+
     <Grid>
 
         <Canvas x:Name="GameCanvas" Background="Green">
             <Rectangle x:Name="PlayerCharacter" Fill="Red" Height="50" Width="50" ></Rectangle>
-            <Ellipse Name="EnemyCharacter" Fill="Black" Width="40" Height="40" Canvas.Left="525" Canvas.Top="290"></Ellipse>
 
         </Canvas>
 
         <StackPanel>
-            
+
         </StackPanel>
     </Grid>
-        
-    
+
+
 
 </Window>

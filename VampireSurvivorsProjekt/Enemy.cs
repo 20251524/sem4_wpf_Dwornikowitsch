@@ -4,6 +4,10 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
@@ -14,6 +18,21 @@ namespace VampireSurvivorsProjekt
         double xDirection = 0;
         double yDirection = 0;
         double enemySpeed = 100;
+        public Ellipse enemychar;
+
+        public Enemy(double enemyXPos, double enemyYPos,  double enemySpeed, Canvas GameCanvas)
+        {
+            this.enemyXPos = enemyXPos;
+            this.enemyYPos = enemyYPos;
+            this.enemySpeed = enemySpeed;
+            enemychar = new Ellipse();
+            SolidColorBrush blackBrush = new SolidColorBrush();
+            blackBrush.Color = Colors.Black;
+            enemychar.Fill = blackBrush;
+            enemychar.Height = 50; 
+            enemychar.Width = 50;
+            GameCanvas.Children.Add(enemychar);
+        }
 
         public void Update(double playerXPos, double playerYPos, double deltaTime)
         {
