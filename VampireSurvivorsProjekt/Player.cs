@@ -4,8 +4,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
@@ -17,7 +20,25 @@ namespace VampireSurvivorsProjekt
         double playerSpeed = 150;
         double xDirection;
         double yDirection;
+        public Rectangle playerchar;
+        public Rect playerhitbox;
+        
 
+        public Player(double playerPpos, double playerYPos, double playerSpeed, Canvas GameCanvas)
+        {
+            this.playerXPos = playerPpos;
+            this.playerYPos = playerYPos;
+            this.playerSpeed = playerSpeed;
+            playerchar = new Rectangle();
+            SolidColorBrush blackBrush = new SolidColorBrush();
+            blackBrush.Color = Colors.Red;
+            playerchar.Fill = blackBrush;
+            playerchar.Height = 50;
+            playerchar.Width = 50;
+            playerhitbox.Width = 50;
+            playerhitbox.Height = 50;
+            GameCanvas.Children.Add(playerchar); 
+        }
 
 
         public void Move(bool wIsPressed, bool aIsPressed, bool dIsPressed, bool sIsPressed, double deltaTime)

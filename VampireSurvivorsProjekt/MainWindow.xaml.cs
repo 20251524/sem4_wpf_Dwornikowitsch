@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -40,7 +41,7 @@ namespace VampireSurvivorsProjekt
             KeyUp += Form_KeyUp;
             Activate();
             Focus();
-            player = new Player();
+            player = new Player(200, 200, 150, GameCanvas);
             enemies = new List<Enemy>();
             enemies.Add(new Enemy(40, 40, 100, GameCanvas));
             enemies.Add(new Enemy(20, 20, 50, GameCanvas));
@@ -59,7 +60,7 @@ namespace VampireSurvivorsProjekt
 
             //gegner außerhalb des sichtbaren bereichs spawnen
             count++; 
-            if(count >= 200) 
+            if(count >= 50) 
             {
                 Random random = new Random();
                 int rnd  =  random.Next(1,5);
@@ -68,8 +69,7 @@ namespace VampireSurvivorsProjekt
                     case 1:
                         enemies.Add(new Enemy(random.Next(1280), -50, 50, GameCanvas));
                         count = 0;
-                        break;
-                        
+                        break;                        
                     case 2:
                         enemies.Add(new Enemy(random.Next(1280), 770, 50, GameCanvas));
                         count = 0;
@@ -85,10 +85,19 @@ namespace VampireSurvivorsProjekt
                 }
             }
 
+            /*
+            foreach(Enemy enemy in enemies)
+            {
+                double closestX = Math.Clamp(enemy.enemyXPos, player.playerhitbox.Left, player.playerhitbox.Right);
+                double closestY = Math.Clamp(enemy.enemyYPos, player.playerhitbox.Top, player.playerhitbox.Bottom);
+                double radius = enemy.height
+            }
+            */
+            
             //player 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
-            Canvas.SetLeft(PlayerCharacter, player.playerXPos);
-            Canvas.SetTop(PlayerCharacter, player.playerYPos);
+            Canvas.SetLeft(player.playerchar, player.playerXPos);
+            Canvas.SetTop(player.playerchar, player.playerYPos);
 
             //enemy
             foreach (Enemy enemy in enemies)
