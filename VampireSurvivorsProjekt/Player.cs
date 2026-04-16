@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -22,22 +23,32 @@ namespace VampireSurvivorsProjekt
         double yDirection;
         public Rectangle playerchar;
         public Rect playerhitbox;
+        public Rectangle playerhitboxdebug;
         
 
-        public Player(double playerPpos, double playerYPos, double playerSpeed, Canvas GameCanvas)
+        public Player(double playerXpos, double playerYPos, double playerSpeed, Canvas GameCanvas)
         {
-            this.playerXPos = playerPpos;
+            this.playerXPos = playerXpos;
             this.playerYPos = playerYPos;
             this.playerSpeed = playerSpeed;
+
             playerchar = new Rectangle();
-            SolidColorBrush blackBrush = new SolidColorBrush();
-            blackBrush.Color = Colors.Red;
-            playerchar.Fill = blackBrush;
+            playerchar.Fill = Brushes.Red;
             playerchar.Height = 50;
             playerchar.Width = 50;
-            playerhitbox.Width = 50;
-            playerhitbox.Height = 50;
-            GameCanvas.Children.Add(playerchar); 
+
+            playerhitbox = new Rect(playerXpos, playerYPos, 50, 50); // Tatsächliche hitbox
+
+            playerhitboxdebug = new Rectangle(); // sichtbare Hitbox für debugging
+            playerhitboxdebug.Width = playerhitbox.Width;
+            playerhitboxdebug.Height = playerhitbox.Height;
+            playerhitboxdebug.Fill = Brushes.Transparent;
+            playerhitboxdebug.Stroke = Brushes.Black;
+            playerhitboxdebug.StrokeThickness = 2;
+
+
+            GameCanvas.Children.Add(playerchar);
+            
         }
 
 
@@ -95,9 +106,12 @@ namespace VampireSurvivorsProjekt
 
                 playerXPos += xDirection * playerSpeed * deltaTime;
                 playerYPos += yDirection * playerSpeed * deltaTime;
+                playerhitbox = new Rect(playerXPos, playerYPos, playerhitbox.Width, playerhitbox.Height);
+
             }
 
 
         }
+
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
@@ -19,6 +20,10 @@ namespace VampireSurvivorsProjekt
         double yDirection = 0;
         double enemySpeed = 100;
         public Ellipse enemychar;
+        public double centerX;
+        public double centerY;
+        public double radius;
+        public bool isdead = false;
 
         public Enemy(double enemyXPos, double enemyYPos,  double enemySpeed, Canvas GameCanvas)
         {
@@ -31,6 +36,9 @@ namespace VampireSurvivorsProjekt
             enemychar.Fill = blackBrush;
             enemychar.Height = 50; 
             enemychar.Width = 50;
+            radius = (enemychar.Height / 2.0) + (Math.Pow(enemychar.Width, 2) / (8.0 * enemychar.Height)); // radius berechnen
+            centerX = enemyXPos + radius;
+            centerY = enemyYPos + radius;
             GameCanvas.Children.Add(enemychar); // Neuen Kreis im Canvas erstellen bei jedem neuen enemy
         }
 
@@ -69,6 +77,12 @@ namespace VampireSurvivorsProjekt
             */
 
 
+        }
+
+        public void getCenter()
+        {
+            centerX = enemyXPos + radius;
+            centerY = enemyYPos + radius;
         }
     }
 }

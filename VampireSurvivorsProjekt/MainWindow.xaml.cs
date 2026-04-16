@@ -26,8 +26,11 @@ namespace VampireSurvivorsProjekt
         bool aIsPressed = false;
         bool sIsPressed = false;
         bool dIsPressed = false;
+        bool fIsPressed = false;
+        bool debugmode = false;
         Player player;
-        List<Enemy> enemies;      
+        List<Enemy> enemies;
+        List<Enemy> deadenemies;
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
         double count = 0;
@@ -43,8 +46,7 @@ namespace VampireSurvivorsProjekt
             Focus();
             player = new Player(200, 200, 150, GameCanvas);
             enemies = new List<Enemy>();
-            enemies.Add(new Enemy(40, 40, 100, GameCanvas));
-            enemies.Add(new Enemy(20, 20, 50, GameCanvas));
+            deadenemies = new List<Enemy>();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -60,44 +62,35 @@ namespace VampireSurvivorsProjekt
 
             //gegner außerhalb des sichtbaren bereichs spawnen
             count++; 
-            if(count >= 50) 
+            if(count >= 300) //spawnrate
             {
-                Random random = new Random();
-                int rnd  =  random.Next(1,5);
-                switch (rnd)
-                {
-                    case 1:
-                        enemies.Add(new Enemy(random.Next(1280), -50, 50, GameCanvas));
-                        count = 0;
-                        break;                        
-                    case 2:
-                        enemies.Add(new Enemy(random.Next(1280), 770, 50, GameCanvas));
-                        count = 0;
-                        break;
-                    case 3:
-                        enemies.Add(new Enemy(-50, random.Next(720), 200, GameCanvas));
-                        count = 0;
-                        break;
-                    case 4:
-                        enemies.Add(new Enemy(1330, random.Next(720), 200, GameCanvas));
-                        count = 0;
-                        break;
-                }
+                SpawnEnemies();
             }
 
-            /*
-            foreach(Enemy enemy in enemies)
-            {
-                double closestX = Math.Clamp(enemy.enemyXPos, player.playerhitbox.Left, player.playerhitbox.Right);
-                double closestY = Math.Clamp(enemy.enemyYPos, player.playerhitbox.Top, player.playerhitbox.Bottom);
-                double radius = enemy.height
-            }
-            */
             
+
+            /*
+            for(int i = enemies.Count; i >= 0; i--)
+            {
+                if(enemies[i].isdead == true)
+                {
+                    GameCanvas.Children.RemoveAt(i);
+                    
+                }
+            }*/
+
+            enemies.RemoveAll(enemy => enemy.isdead); // für jeden Enemy in der Liste prüfen ob er tod ist und dann entfernen
+
+
+
+
             //player 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
             Canvas.SetLeft(player.playerchar, player.playerXPos);
             Canvas.SetTop(player.playerchar, player.playerYPos);
+
+
+
 
             //enemy
             foreach (Enemy enemy in enemies)
@@ -107,9 +100,80 @@ namespace VampireSurvivorsProjekt
                 Canvas.SetTop(enemy.enemychar, enemy.enemyYPos);
             }
 
-            
+            //Debug
+
+            DebugMode();
+
+            foreach(Enemy enemy in enemies)
+            {
+                enemy.getCenter();
+            }
+
+            foreach (Enemy enemy in enemies)
+            {
+                double closestX = Math.Clamp(enemy.centerX, player.playerhitbox.Left, player.playerhitbox.Right);
+                double closestY = Math.Clamp(enemy.centerY, player.playerhitbox.Top, player.playerhitbox.Bottom);
+                double dx = enemy.centerX - closestX;
+                double dy = enemy.centerY - closestY;
+                double distance = Math.Sqrt(dx * dx + dy * dy);
+                Debug.WriteLine(distance);
+                //Debug.WriteLine(closestX);
+                //Debug.WriteLine(closestY);
+                if (distance <= enemy.radius)
+                {
+                    Debug.WriteLine("Collision!");
+                    enemy.isdead = true;
+                }
+
+            }
+
         }
 
+        private void DebugMode()
+        {
+            if (fIsPressed == true)
+            {
+                Canvas.SetLeft(player.playerhitboxdebug, player.playerhitbox.Left);
+                Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top);
+                if (debugmode == false)
+                {
+                    GameCanvas.Children.Add(player.playerhitboxdebug);
+                    debugmode = true;
+                }
+
+            }
+            if (fIsPressed == false && debugmode == true)
+            {
+                GameCanvas.Children.Remove(player.playerhitboxdebug);
+                debugmode = false;
+            }
+        }
+
+
+        private void SpawnEnemies()
+        {
+            Random random = new Random();
+            int rnd = random.Next(1, 5);
+            switch (rnd)
+            {
+                case 1:
+                    enemies.Add(new Enemy(random.Next(1280), -50, 50, GameCanvas));
+                    count = 0;
+                    break;
+                case 2:
+                    enemies.Add(new Enemy(random.Next(1280), 770, 50, GameCanvas));
+                    count = 0;
+                    break;
+                case 3:
+                    enemies.Add(new Enemy(-50, random.Next(720), 200, GameCanvas));
+                    count = 0;
+                    break;
+                case 4:
+                    enemies.Add(new Enemy(1330, random.Next(720), 200, GameCanvas));
+                    count = 0;
+                    break;
+            }
+        }
         private void Form_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -130,7 +194,17 @@ namespace VampireSurvivorsProjekt
             {
                 dIsPressed = true;
             }
-
+            if(e.Key == Key.F)
+            {
+                if(fIsPressed == false)
+                {
+                    fIsPressed = true;
+                }
+                else
+                {
+                    fIsPressed = false;
+                }
+            }
         }
 
         private void Form_KeyUp(object sender, KeyEventArgs e)
