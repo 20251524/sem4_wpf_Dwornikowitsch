@@ -24,6 +24,7 @@ namespace VampireSurvivorsProjekt
         public double centerY;
         public double radius;
         public bool isdead = false;
+        public Ellipse debugCenterPoint;
 
         public Enemy(double enemyXPos, double enemyYPos,  double enemySpeed, Canvas GameCanvas)
         {
@@ -31,14 +32,22 @@ namespace VampireSurvivorsProjekt
             this.enemyYPos = enemyYPos;
             this.enemySpeed = enemySpeed;
             enemychar = new Ellipse();
-            SolidColorBrush blackBrush = new SolidColorBrush();
-            blackBrush.Color = Colors.Black;
-            enemychar.Fill = blackBrush;
+            enemychar.Fill = Brushes.Black;
             enemychar.Height = 50; 
             enemychar.Width = 50;
-            radius = (enemychar.Height / 2.0) + (Math.Pow(enemychar.Width, 2) / (8.0 * enemychar.Height)); // radius berechnen
+
+       
+
+            radius = enemychar.Width / 2; // radius berechnen
             centerX = enemyXPos + radius;
             centerY = enemyYPos + radius;
+
+            debugCenterPoint = new Ellipse();
+            debugCenterPoint.Height = 5;
+            debugCenterPoint.Width = 5;
+            debugCenterPoint.Fill = Brushes.Blue;
+
+
             GameCanvas.Children.Add(enemychar); // Neuen Kreis im Canvas erstellen bei jedem neuen enemy
         }
 

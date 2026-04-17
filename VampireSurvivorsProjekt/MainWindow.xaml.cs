@@ -62,7 +62,7 @@ namespace VampireSurvivorsProjekt
 
             //gegner außerhalb des sichtbaren bereichs spawnen
             count++; 
-            if(count >= 300) //spawnrate
+            if(count >= 100) //spawnrate
             {
                 SpawnEnemies();
             }
@@ -102,21 +102,23 @@ namespace VampireSurvivorsProjekt
 
             //Debug
 
-            DebugMode();
+
 
             foreach(Enemy enemy in enemies)
             {
                 enemy.getCenter();
             }
+            DebugMode();
+
 
             foreach (Enemy enemy in enemies)
             {
-                double closestX = Math.Clamp(enemy.centerX, player.playerhitbox.Left, player.playerhitbox.Right);
-                double closestY = Math.Clamp(enemy.centerY, player.playerhitbox.Top, player.playerhitbox.Bottom);
-                double dx = enemy.centerX - closestX;
-                double dy = enemy.centerY - closestY;
-                double distance = Math.Sqrt(dx * dx + dy * dy);
-                Debug.WriteLine(distance);
+                double closestX = Math.Clamp(enemy.centerX, player.playerhitbox.Left, player.playerhitbox.Right);  // Nähesten X-Punkt am player rect finden
+                double closestY = Math.Clamp(enemy.centerY, player.playerhitbox.Top, player.playerhitbox.Bottom);  // Nähesten Y-Punkt am player rect finden
+                double dx = enemy.centerX - closestX;  // X Distanz zum player
+                double dy = enemy.centerY - closestY;  // Y Distanz zum player
+                double distance = Math.Sqrt(dx * dx + dy * dy);  // Gerade zum player mittels Pythagoras
+                //Debug.WriteLine(distance);
                 //Debug.WriteLine(closestX);
                 //Debug.WriteLine(closestY);
                 if (distance <= enemy.radius)
@@ -137,13 +139,26 @@ namespace VampireSurvivorsProjekt
                 Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top);
                 if (debugmode == false)
                 {
+                    foreach(Enemy enemy in enemies)
+                    {
+                        GameCanvas.Children.Add(enemy.debugCenterPoint);
+                    }
                     GameCanvas.Children.Add(player.playerhitboxdebug);
                     debugmode = true;
+                }
+                foreach(Enemy enemy in enemies)
+                {
+                    Canvas.SetLeft(enemy.debugCenterPoint, enemy.centerX);
+                    Canvas.SetTop(enemy.debugCenterPoint, enemy.centerY);
                 }
 
             }
             if (fIsPressed == false && debugmode == true)
             {
+                foreach(Enemy enemy in enemies)
+                {
+                    GameCanvas.Children.Remove(enemy.debugCenterPoint);
+                }
                 GameCanvas.Children.Remove(player.playerhitboxdebug);
                 debugmode = false;
             }
