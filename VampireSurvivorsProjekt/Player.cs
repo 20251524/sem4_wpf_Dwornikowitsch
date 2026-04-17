@@ -54,25 +54,11 @@ namespace VampireSurvivorsProjekt
 
         public void Move(bool wIsPressed, bool aIsPressed, bool dIsPressed, bool sIsPressed, double deltaTime)
         {
-            /*
-            if (wIsPressed == true)
-            {
-                playerYPos -= playerSpeed * deltaTime;
-            }
-            if(sIsPressed == true)
-            {
-                playerYPos += playerSpeed * deltaTime;
-            }
-            if(aIsPressed == true)
-            {
-                playerXPos -= playerSpeed * deltaTime;
-            }
-            if(dIsPressed == true)
-            {
-                playerXPos += playerSpeed * deltaTime;
-            }
-            */
+            // jedem Frame bei 0 starten
+            xDirection = 0;
+            yDirection = 0;
 
+            // Richtung berechnen
             if (wIsPressed == true)
             {
                 yDirection -= 1;
@@ -103,13 +89,12 @@ namespace VampireSurvivorsProjekt
             {
                 xDirection = xDirection / length;
                 yDirection = yDirection / length;
-
-                playerXPos += xDirection * playerSpeed * deltaTime;
-                playerYPos += yDirection * playerSpeed * deltaTime;
-                playerhitbox = new Rect(playerXPos, playerYPos, playerhitbox.Width, playerhitbox.Height);
-
             }
 
+            // Position aktualisieren
+            playerXPos += xDirection * playerSpeed * deltaTime;
+            playerYPos += yDirection * playerSpeed * deltaTime;
+            playerhitbox = new Rect(playerXPos, playerYPos, playerhitbox.Width, playerhitbox.Height);
 
         }
 

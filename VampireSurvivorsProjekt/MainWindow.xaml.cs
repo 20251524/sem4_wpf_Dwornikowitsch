@@ -30,10 +30,10 @@ namespace VampireSurvivorsProjekt
         bool debugmode = false;
         Player player;
         List<Enemy> enemies;
-        List<Enemy> deadenemies;
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
-        double count = 0;
+        double spawnTimer = 0;
+        double spawnInterval = 1; // spawnt jede Sekunde
 
 
 
@@ -45,8 +45,7 @@ namespace VampireSurvivorsProjekt
             Activate();
             Focus();
             player = new Player(200, 200, 150, GameCanvas);
-            enemies = new List<Enemy>();
-            deadenemies = new List<Enemy>();
+            enemies = new List<Enemy>();       
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -61,10 +60,11 @@ namespace VampireSurvivorsProjekt
             lastTime = currentTime; // Aktuelle Zeit für den nächsten Frame speichern
 
             //gegner außerhalb des sichtbaren bereichs spawnen
-            count++; 
-            if(count >= 100) //spawnrate
+            spawnTimer += deltaTime;
+            if(spawnTimer >= spawnInterval) //spawnrate
             {
                 SpawnEnemies();
+                spawnTimer = 0;
             }
            
             //player 
@@ -110,8 +110,8 @@ namespace VampireSurvivorsProjekt
             {
                 if (enemies[i].isdead == true)
                 {
-                    GameCanvas.Children.Remove(enemies[i].enemychar);  // jedén enemychar entfernen bei dem isdead true ist
-
+                    GameCanvas.Children.Remove(enemies[i].enemychar);  // jeden enemychar entfernen bei dem isdead true ist
+                    GameCanvas.Children.Remove(enemies[i].debugCenterPoint);
                 }
             }
 
