@@ -34,6 +34,10 @@ namespace VampireSurvivorsProjekt
         double lastTime;
         double spawnTimer = 0;
         double spawnInterval = 1; // spawnt jede Sekunde
+        double cameraX = 1280 / 2;
+        double cameraY = 720 / 2;
+        int windowWidth = 1280;
+        int windowHeight = 720;
 
 
 
@@ -69,23 +73,30 @@ namespace VampireSurvivorsProjekt
            
             //player 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
-            Canvas.SetLeft(player.playerchar, player.playerXPos);
-            Canvas.SetTop(player.playerchar, player.playerYPos);
+
 
             //enemy
             foreach (Enemy enemy in enemies)
             {
                 enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
-                Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos);
-                Canvas.SetTop(enemy.enemychar, enemy.enemyYPos);
             }
+
+            UpdateCamera();
+
+            Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX - (player.playerchar.Width / 2));
+            Canvas.SetTop(player.playerchar, player.playerYPos - cameraY - (player.playerchar.Height / 2));
+
+            foreach (Enemy enemy in enemies)
+            {
+                Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos - cameraX);
+                Canvas.SetTop(enemy.enemychar, enemy.enemyYPos - cameraY);
+            }
+
 
             foreach(Enemy enemy in enemies)
             {
                 enemy.getCenter(); // Updated Mittelpunkt für jeden enemy
             }
-
-            DebugMode();
 
 
             foreach (Enemy enemy in enemies)
@@ -117,6 +128,13 @@ namespace VampireSurvivorsProjekt
 
             enemies.RemoveAll(enemy => enemy.isdead); // für jeden Enemy in der Liste prüfen ob er tod ist und dann entfernen
 
+            DebugMode();
+        }
+
+        private void UpdateCamera()
+        {
+            cameraX = player.playerXPos - (GameCanvas.ActualWidth / 2) ;
+            cameraY = player.playerYPos - (GameCanvas.ActualHeight / 2) ;
         }
 
 
@@ -127,20 +145,16 @@ namespace VampireSurvivorsProjekt
             switch (rnd)
             {
                 case 1:
-                    enemies.Add(new Enemy(random.Next(1280), -50, 50, GameCanvas));
-                    count = 0;
+                    enemies.Add(new Enemy(random.Next(windowWidth), -50, 50, GameCanvas));
                     break;
                 case 2:
-                    enemies.Add(new Enemy(random.Next(1280), 770, 50, GameCanvas));
-                    count = 0;
+                    enemies.Add(new Enemy(random.Next(windowWidth), 770, 50, GameCanvas));
                     break;
                 case 3:
-                    enemies.Add(new Enemy(-50, random.Next(720), 200, GameCanvas));
-                    count = 0;
+                    enemies.Add(new Enemy(-50, random.Next(windowHeight), 200, GameCanvas));
                     break;
                 case 4:
-                    enemies.Add(new Enemy(1330, random.Next(720), 200, GameCanvas));
-                    count = 0;
+                    enemies.Add(new Enemy(1330, random.Next(windowHeight), 200, GameCanvas));
                     break;
             }
         }
@@ -149,8 +163,8 @@ namespace VampireSurvivorsProjekt
         {
             if (fIsPressed == true) // bei Debug on
             {
-                Canvas.SetLeft(player.playerhitboxdebug, player.playerhitbox.Left);
-                Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top);
+                Canvas.SetLeft(player.playerhitboxdebug, player.playerhitbox.Left - cameraX);
+                Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top - cameraY);
                 if (debugmode == false)
                 {
                     foreach(Enemy enemy in enemies)
@@ -162,8 +176,8 @@ namespace VampireSurvivorsProjekt
                 }
                 foreach(Enemy enemy in enemies)
                 {
-                    Canvas.SetLeft(enemy.debugCenterPoint, enemy.centerX);
-                    Canvas.SetTop(enemy.debugCenterPoint, enemy.centerY);
+                    Canvas.SetLeft(enemy.debugCenterPoint, enemy.centerX - cameraX);
+                    Canvas.SetTop(enemy.debugCenterPoint, enemy.centerY - cameraY);
                 }
 
             }
