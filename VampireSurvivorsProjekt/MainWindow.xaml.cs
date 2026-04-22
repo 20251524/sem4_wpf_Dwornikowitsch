@@ -133,8 +133,8 @@ namespace VampireSurvivorsProjekt
 
         private void UpdateCamera()
         {
-            cameraX = (player.playerXPos + (player.playerchar.Width)) - (GameCanvas.ActualWidth / 2) ;
-            cameraY = (player.playerYPos + (player.playerchar.Height)) - (GameCanvas.ActualHeight / 2) ;
+            cameraX = (player.playerXPos + (player.playerchar.Width)) - (GameCanvas.ActualWidth / 2) ; // links 
+            cameraY = (player.playerYPos + (player.playerchar.Height)) - (GameCanvas.ActualHeight / 2) ; // oben
         }
 
 
@@ -142,21 +142,25 @@ namespace VampireSurvivorsProjekt
         {
             Random random = new Random();
             int rnd = random.Next(1, 5);
+            int minX = (int)cameraX; // (int) lässt den double wert wie einen int behandeln. CameraX ist oben links
+            int maxX = (int)(cameraX + GameCanvas.ActualWidth); // vom linken Rand des Bildschirms zum rechten
+            int minY = (int)cameraY; // oben links
+            int maxY = (int)(cameraY + GameCanvas.ActualHeight); // von oben nach unten
             switch (rnd)
             {
                 case 1:
-                    enemies.Add(new Enemy(random.Next(windowWidth), -50, 50, GameCanvas));
+                    enemies.Add(new Enemy(random.Next(minX, maxX),cameraY -50, 50, GameCanvas)); // oben
                     break;
                 case 2:
-                    enemies.Add(new Enemy(random.Next(windowWidth), 770, 50, GameCanvas));
+                    enemies.Add(new Enemy(random.Next(minX, maxX), cameraY + windowHeight + 50 , 50, GameCanvas)); // unten
                     break;
                 case 3:
-                    enemies.Add(new Enemy(-50, random.Next(windowHeight), 200, GameCanvas));
+                    enemies.Add(new Enemy(cameraX -50, random.Next(minY, maxY), 200, GameCanvas)); // links
                     break;
                 case 4:
-                    enemies.Add(new Enemy(1330, random.Next(windowHeight), 200, GameCanvas));
+                    enemies.Add(new Enemy(cameraX + windowWidth + 50, random.Next(minY, maxY), 200, GameCanvas)); // rechts
                     break;
-            }
+            }   
         }
 
         private void DebugMode()
