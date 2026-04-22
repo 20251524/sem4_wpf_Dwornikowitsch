@@ -83,8 +83,8 @@ namespace VampireSurvivorsProjekt
 
             UpdateCamera();
 
-            Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX - (player.playerchar.Width / 2));
-            Canvas.SetTop(player.playerchar, player.playerYPos - cameraY - (player.playerchar.Height / 2));
+            Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX);
+            Canvas.SetTop(player.playerchar, player.playerYPos - cameraY);
 
             foreach (Enemy enemy in enemies)
             {
@@ -133,8 +133,8 @@ namespace VampireSurvivorsProjekt
 
         private void UpdateCamera()
         {
-            cameraX = player.playerXPos - (GameCanvas.ActualWidth / 2) ;
-            cameraY = player.playerYPos - (GameCanvas.ActualHeight / 2) ;
+            cameraX = (player.playerXPos + (player.playerchar.Width)) - (GameCanvas.ActualWidth / 2) ;
+            cameraY = (player.playerYPos + (player.playerchar.Height)) - (GameCanvas.ActualHeight / 2) ;
         }
 
 

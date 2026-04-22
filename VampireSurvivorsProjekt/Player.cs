@@ -37,7 +37,7 @@ namespace VampireSurvivorsProjekt
             playerchar.Height = 50;
             playerchar.Width = 50;
 
-            playerhitbox = new Rect(playerXpos, playerYPos, 50, 50); // Tatsächliche hitbox
+            playerhitbox = new Rect(playerXpos , playerYPos, playerchar.Width, playerchar.Height); // Tatsächliche hitbox
 
             playerhitboxdebug = new Rectangle(); // sichtbare Hitbox für debugging
             playerhitboxdebug.Width = playerhitbox.Width;
@@ -94,7 +94,7 @@ namespace VampireSurvivorsProjekt
             // Position aktualisieren
             playerXPos += xDirection * playerSpeed * deltaTime;
             playerYPos += yDirection * playerSpeed * deltaTime;
-            playerhitbox = new Rect(playerXPos, playerYPos, playerhitbox.Width, playerhitbox.Height);
+            playerhitbox = new Rect(playerXPos , playerYPos , playerhitbox.Width, playerhitbox.Height);
 
         }
 

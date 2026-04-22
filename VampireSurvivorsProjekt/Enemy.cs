@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
-    internal class Enemy
+    internal class Enemy 
     {
         public double enemyXPos = 100;
         public double enemyYPos = 100;
@@ -53,8 +53,8 @@ namespace VampireSurvivorsProjekt
 
         public void Update(double playerXPos, double playerYPos, double deltaTime)
         {
-            xDirection = playerXPos - enemyXPos;
-            yDirection = playerYPos - enemyYPos;
+            xDirection = (playerXPos ) - (enemyXPos ); // +25 wegen SetLeft bzw SetTop sonst bewegt er sich zur alten playerpos
+            yDirection = (playerYPos ) - (enemyYPos ); // ohne +25 zielen die gegner auf den spieler unten rechts
             double length = Math.Sqrt(xDirection * xDirection + yDirection * yDirection); // berechnung zur vektor normalisierung
             if(length > 0) // Division durch 0 verhindern
             {
