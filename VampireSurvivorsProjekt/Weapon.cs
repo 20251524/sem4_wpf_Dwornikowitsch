@@ -9,10 +9,10 @@ namespace VampireSurvivorsProjekt
 {
     public class Weapon
     {
-        double damage;
+        public double damage;
         double range;
         double level;
-        double attacksPerSecond;
+        public double attacksPerSecond;
         public double cooldownTimer;
         public Weapon(double damage, double attacksPerSecond, double range)
         {
@@ -29,10 +29,30 @@ namespace VampireSurvivorsProjekt
             {
                 cooldownTimer -= deltaTime;
             }
-            if (cooldownTimer < 0)
+            if (cooldownTimer <= 0)
             {
                 cooldownTimer = 1 / attacksPerSecond;
             }
+        }
+
+        public Enemy FindNearestEnemy(List<Enemy> enemies, double playerXPos, double playerYPos)
+        {
+            Enemy nearestEnemy = null;
+            double minDist = 5000;
+            foreach(Enemy enemy in enemies)
+            {
+                double closestX = enemy.centerX - playerXPos;
+                double closestY = enemy.centerY - playerYPos;
+
+                double dist = closestX * closestY + closestY * closestX;
+
+                if( dist < minDist)
+                {
+                    nearestEnemy = enemy;
+                }
+            }
+            
+            return nearestEnemy;
         }
     }
 
