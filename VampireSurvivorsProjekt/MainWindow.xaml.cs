@@ -29,7 +29,7 @@ namespace VampireSurvivorsProjekt
         bool fIsPressed = false;
         bool debugmode = false;
         Player player;
-        public static List<Enemy> enemies;
+        public List<Enemy> enemies;
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
         double spawnTimer = 0;
@@ -39,7 +39,7 @@ namespace VampireSurvivorsProjekt
         int windowWidth = 1280;
         int windowHeight = 720;
         public List<Projectile> activeProjectilesList = new List<Projectile>();
-
+        public double deltaTime;
 
 
         public MainWindow()
@@ -61,7 +61,7 @@ namespace VampireSurvivorsProjekt
         private void GameLoop(object sender, EventArgs e)
         {
             double currentTime = stopwatch.Elapsed.TotalSeconds; // Zeit seit Start des Spiels in Sekunden
-            double deltaTime = currentTime - lastTime; // Zeitdifferenz seit dem letzten Frame (DeltaTime)
+            deltaTime = currentTime - lastTime; // Zeitdifferenz seit dem letzten Frame (DeltaTime)
             lastTime = currentTime; // Aktuelle Zeit für den nächsten Frame speichern
 
             //gegner außerhalb des sichtbaren bereichs spawnen
@@ -71,7 +71,23 @@ namespace VampireSurvivorsProjekt
                 SpawnEnemies();
                 spawnTimer = 0;
             }
-           
+
+            /* Projectiles Test
+            foreach (Projectile proj in activeProjectilesList)
+            {
+                proj.UpdateProjectile(deltaTime);
+                Canvas.SetLeft(proj.visual, proj.xPos);
+                Canvas.SetTop(proj.visual, proj.yPos);
+            }
+            */
+
+            /*
+            Projectile proj = new Projectile(player.playerXPos, player.playerYPos, 20, 5, 10, 10, GameCanvas);
+            proj.UpdateProjectile(deltaTime);
+            Canvas.SetLeft(proj.visual, proj.xPos);
+            Canvas.SetTop(proj.visual, proj.yPos);
+            */
+
             //player 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
 
@@ -181,7 +197,7 @@ namespace VampireSurvivorsProjekt
                     Canvas.SetTop(enemy.debugCenterPoint, enemy.centerY - cameraY);
                 }
                 if (debugmode == false)
-                {
+                {                   
                     GameCanvas.Children.Add(player.playerhitboxdebug);
                     debugmode = true;
                 }
@@ -190,7 +206,10 @@ namespace VampireSurvivorsProjekt
 
             if (fIsPressed == false && debugmode == true) // bei Debug off
             {
-                foreach(Enemy enemy in enemies)
+                /* Projectiles test
+                activeProjectilesList.Add(new Projectile(player.playerXPos, player.playerYPos, 20, 5, 10, 10, GameCanvas));
+                */
+                foreach (Enemy enemy in enemies)
                 {
                     GameCanvas.Children.Remove(enemy.debugCenterPoint);
                 }

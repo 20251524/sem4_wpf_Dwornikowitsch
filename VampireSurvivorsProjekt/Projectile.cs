@@ -19,7 +19,7 @@ namespace VampireSurvivorsProjekt
         double damage;
         public Shape visual;
 
-        public Projectile(double xPos, double yPos, double xDir, double yDir, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas)
+        public Projectile(double xPos, double yPos, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas)
         {
             this.xPos = xPos;
             this.yPos = yPos;
