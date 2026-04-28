@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,12 @@ namespace VampireSurvivorsProjekt
                 yDir = yDir / length;
             }
 
+        }
+
+        public void UpdateProjectile(double deltatime)
+        {
+            xPos += xDir * deltatime * speed;
+            yPos += yDir * deltatime * speed;
         }
     }
 }
