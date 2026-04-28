@@ -53,8 +53,8 @@ namespace VampireSurvivorsProjekt
 
         public void Update(double playerXPos, double playerYPos, double deltaTime)
         {
-            xDirection = (playerXPos ) - (enemyXPos ); // +25 wegen SetLeft bzw SetTop sonst bewegt er sich zur alten playerpos
-            yDirection = (playerYPos ) - (enemyYPos ); // ohne +25 zielen die gegner auf den spieler unten rechts
+            xDirection = (playerXPos ) - (enemyXPos ); 
+            yDirection = (playerYPos ) - (enemyYPos ); 
             double length = Math.Sqrt(xDirection * xDirection + yDirection * yDirection); // berechnung zur vektor normalisierung
             if(length > 0) // Division durch 0 verhindern
             {
