@@ -170,19 +170,20 @@ namespace VampireSurvivorsProjekt
             {
                 Canvas.SetLeft(player.playerhitboxdebug, player.playerhitbox.Left - cameraX);
                 Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top - cameraY);
-                if (debugmode == false)
+
+                foreach (Enemy enemy in enemies)
                 {
-                    foreach(Enemy enemy in enemies)
+                    if(GameCanvas.Children.Contains(enemy.debugCenterPoint) == false)
                     {
                         GameCanvas.Children.Add(enemy.debugCenterPoint);
                     }
-                    GameCanvas.Children.Add(player.playerhitboxdebug);
-                    debugmode = true;
-                }
-                foreach(Enemy enemy in enemies)
-                {
                     Canvas.SetLeft(enemy.debugCenterPoint, enemy.centerX - cameraX);
                     Canvas.SetTop(enemy.debugCenterPoint, enemy.centerY - cameraY);
+                }
+                if (debugmode == false)
+                {
+                    GameCanvas.Children.Add(player.playerhitboxdebug);
+                    debugmode = true;
                 }
 
             }
