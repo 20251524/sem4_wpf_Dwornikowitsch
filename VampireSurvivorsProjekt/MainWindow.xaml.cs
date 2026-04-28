@@ -29,7 +29,7 @@ namespace VampireSurvivorsProjekt
         bool fIsPressed = false;
         bool debugmode = false;
         Player player;
-        List<Enemy> enemies;
+        public static List<Enemy> enemies;
         Stopwatch stopwatch = new Stopwatch();
         double lastTime;
         double spawnTimer = 0;
@@ -38,6 +38,7 @@ namespace VampireSurvivorsProjekt
         double cameraY = 720 / 2;
         int windowWidth = 1280;
         int windowHeight = 720;
+        public List<Projectile> activeProjectilesList = new List<Projectile>();
 
 
 
@@ -49,7 +50,7 @@ namespace VampireSurvivorsProjekt
             Activate();
             Focus();
             player = new Player(200, 200, 150, GameCanvas);
-            enemies = new List<Enemy>();       
+            enemies = new List<Enemy>();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;

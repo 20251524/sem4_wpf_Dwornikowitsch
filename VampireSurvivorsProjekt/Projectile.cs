@@ -4,11 +4,12 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
-    internal class Projectile
+    public class Projectile
     {
         public double xPos;
         public double yPos;
@@ -18,7 +19,7 @@ namespace VampireSurvivorsProjekt
         double damage;
         public Shape visual;
 
-        public Projectile(double xPos, double yPos, double xDir, double yDir, double speed, double damage, double xTarget, double yTarget)
+        public Projectile(double xPos, double yPos, double xDir, double yDir, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas)
         {
             this.xPos = xPos;
             this.yPos = yPos;
@@ -35,6 +36,8 @@ namespace VampireSurvivorsProjekt
                 yDir = yDir / length;
             }
 
+            visual = new Ellipse { Width = 10, Height = 10, Fill = System.Windows.Media.Brushes.Orange };
+            GameCanvas.Children.Add(visual);
         }
 
         public void UpdateProjectile(double deltatime)

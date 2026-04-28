@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
-    internal class Enemy 
+    public class Enemy 
     {
         public double enemyXPos = 100;
         public double enemyYPos = 100;

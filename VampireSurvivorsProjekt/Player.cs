@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
-    internal class Player
+    public class Player
     {
 
         public double playerXPos = 100;
