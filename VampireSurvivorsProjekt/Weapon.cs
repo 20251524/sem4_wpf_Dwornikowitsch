@@ -23,7 +23,17 @@ namespace VampireSurvivorsProjekt
             this.cooldownTimer = 0;
         }
 
-
+        public void UpdateWeapon(double deltaTime)
+        {
+            if (cooldownTimer > 0)
+            {
+                cooldownTimer -= deltaTime;
+            }
+            if (cooldownTimer < 0)
+            {
+                cooldownTimer = 1 / attacksPerSecond;
+            }
+        }
     }
 
     public class Fireball : Weapon
