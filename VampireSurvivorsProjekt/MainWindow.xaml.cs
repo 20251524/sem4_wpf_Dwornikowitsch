@@ -62,34 +62,24 @@ namespace VampireSurvivorsProjekt
 
         private void GameLoop(object sender, EventArgs e)
         {
+            //Zeit Berechnung
             UpdateDeltaTime();
 
-
+            //Gegner spawnuing
             SpawnHandling();
 
+            //Bewegung und Logik
             UpdateGameObjects();
 
-            DrawEverything();
+            //Kollisionen
+            CollisionHandling();
 
+            //Kamera Updaten
             UpdateCamera();
 
-            foreach (Enemy enemy in enemies)
-            {
-                double closestX = Math.Clamp(enemy.centerX, player.playerhitbox.Left, player.playerhitbox.Right);  // Nähesten X-Punkt am player rect finden
-                double closestY = Math.Clamp(enemy.centerY, player.playerhitbox.Top, player.playerhitbox.Bottom);  // Nähesten Y-Punkt am player rect finden
-                double dx = enemy.centerX - closestX;  // dx = X Distanz zum player
-                double dy = enemy.centerY - closestY;  // dy = Y Distanz zum player
-                double distance = Math.Sqrt(dx * dx + dy * dy);  // Gerade zum player mittels Pythagoras
-                //Debug.WriteLine(distance);
-                //Debug.WriteLine(closestX);
-                //Debug.WriteLine(closestY);
-                if (distance <= enemy.radius)
-                {
-                    Debug.WriteLine("Collision!");
-                    enemy.isdead = true;
-                }
+            //Alles auf den Screen zeichnen
+            DrawEverything();
 
-            }
 
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
@@ -166,6 +156,24 @@ namespace VampireSurvivorsProjekt
             }
         }
 
+        private void CollisionHandling()
+        {
+            foreach (Enemy enemy in enemies)
+            {
+                double closestX = Math.Clamp(enemy.centerX, player.playerhitbox.Left, player.playerhitbox.Right);  // Nähesten X-Punkt am player rect finden
+                double closestY = Math.Clamp(enemy.centerY, player.playerhitbox.Top, player.playerhitbox.Bottom);  // Nähesten Y-Punkt am player rect finden
+                double dx = enemy.centerX - closestX;  // dx = X Distanz zum player
+                double dy = enemy.centerY - closestY;  // dy = Y Distanz zum player
+                double distance = Math.Sqrt(dx * dx + dy * dy);  // Gerade zum player mittels Pythagoras
+
+                //Debug.WriteLine(closestY);
+                if (distance <= enemy.radius)
+                {
+                    Debug.WriteLine("Collision!");
+                    enemy.isdead = true;
+                }
+            }
+        }
 
 
         private void UpdateCamera()
@@ -176,7 +184,7 @@ namespace VampireSurvivorsProjekt
 
 
 
-
+        //Spawn Logik
         private void SpawnEnemies()
         {
             Random random = new Random();
