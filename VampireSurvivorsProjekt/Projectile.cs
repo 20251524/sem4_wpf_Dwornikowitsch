@@ -18,6 +18,7 @@ namespace VampireSurvivorsProjekt
         double speed;
         double damage;
         public Shape visual;
+        double radius;
 
         public Projectile(double xPos, double yPos, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas)
         {
@@ -26,24 +27,25 @@ namespace VampireSurvivorsProjekt
             this.speed = speed;
             this.damage = damage;
 
-            xDir = xTarget - xPos;
-            yDir = yTarget - yPos;
+            this.xDir = xTarget - xPos;
+            this.yDir = yTarget - yPos;
             double length = Math.Sqrt(xDir * xDir + yDir * yDir);
-
+            
             if (length > 0) // Division durch 0 verhindern
             {
-                xDir = xDir / length;
-                yDir = yDir / length;
+                this.xDir = xDir / length;
+                this.yDir = yDir / length;
             }
-
+            
             visual = new Ellipse { Width = 10, Height = 10, Fill = System.Windows.Media.Brushes.Orange };
             GameCanvas.Children.Add(visual);
+            radius = visual.Width / 2;
         }
 
         public void UpdateProjectile(double deltatime)
         {
-            xPos += xDir * deltatime * speed;
-            yPos += yDir * deltatime * speed;
+            this.xPos += xDir * deltatime * speed;
+            this.yPos += yDir * deltatime * speed;
         }
     }
 }

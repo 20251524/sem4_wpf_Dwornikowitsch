@@ -38,17 +38,18 @@ namespace VampireSurvivorsProjekt
         public Enemy FindNearestEnemy(List<Enemy> enemies, double playerXPos, double playerYPos)
         {
             Enemy nearestEnemy = null;
-            double minDist = 5000;
+            double minDist = double.MaxValue;
             foreach(Enemy enemy in enemies)
             {
                 double closestX = enemy.centerX - playerXPos;
                 double closestY = enemy.centerY - playerYPos;
 
-                double dist = closestX * closestY + closestY * closestX;
+                double dist = closestX * closestX + closestY * closestY;
 
                 if( dist < minDist)
                 {
                     nearestEnemy = enemy;
+                    minDist = dist;
                 }
             }
             
@@ -61,6 +62,11 @@ namespace VampireSurvivorsProjekt
         public Fireball() : base(5, 1, 100) // Fireball konstruktor ruft die base klasse auf
         {
 
+        }
+
+        public void UpdateFireball()
+        {
+            
         }
 
     }

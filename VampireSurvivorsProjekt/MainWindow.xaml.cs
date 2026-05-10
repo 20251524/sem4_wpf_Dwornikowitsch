@@ -72,21 +72,14 @@ namespace VampireSurvivorsProjekt
                 spawnTimer = 0;
             }
 
-            /* Projectiles Test
+            // Projectiles Test
             foreach (Projectile proj in activeProjectilesList)
             {
                 proj.UpdateProjectile(deltaTime);
-                Canvas.SetLeft(proj.visual, proj.xPos);
-                Canvas.SetTop(proj.visual, proj.yPos);
+                Canvas.SetLeft(proj.visual, proj.xPos - cameraX +(player.playerchar.ActualWidth / 2));
+                Canvas.SetTop(proj.visual, proj.yPos - cameraY + (player.playerchar.ActualHeight / 2));            
             }
-            */
-
-            /*
-            Projectile proj = new Projectile(player.playerXPos, player.playerYPos, 20, 5, 10, 10, GameCanvas);
-            proj.UpdateProjectile(deltaTime);
-            Canvas.SetLeft(proj.visual, proj.xPos);
-            Canvas.SetTop(proj.visual, proj.yPos);
-            */
+            
 
             //player 
             player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
@@ -148,11 +141,15 @@ namespace VampireSurvivorsProjekt
             DebugMode();
         }
 
+
+
         private void UpdateCamera()
         {
             cameraX = (player.playerXPos + (player.playerchar.Width)) - (GameCanvas.ActualWidth / 2) ; // links 
             cameraY = (player.playerYPos + (player.playerchar.Height)) - (GameCanvas.ActualHeight / 2) ; // oben
         }
+
+
 
 
         private void SpawnEnemies()
@@ -172,13 +169,15 @@ namespace VampireSurvivorsProjekt
                     enemies.Add(new Enemy(random.Next(minX, maxX), cameraY + windowHeight + 50 , 50, GameCanvas)); // unten
                     break;
                 case 3:
-                    enemies.Add(new Enemy(cameraX -50, random.Next(minY, maxY), 200, GameCanvas)); // links
+                    enemies.Add(new Enemy(cameraX -50, random.Next(minY, maxY), 50, GameCanvas)); // links
                     break;
                 case 4:
-                    enemies.Add(new Enemy(cameraX + windowWidth + 50, random.Next(minY, maxY), 200, GameCanvas)); // rechts
+                    enemies.Add(new Enemy(cameraX + windowWidth + 50, random.Next(minY, maxY), 50, GameCanvas)); // rechts
                     break;
             }   
         }
+
+
 
         private void DebugMode()
         {
@@ -206,9 +205,11 @@ namespace VampireSurvivorsProjekt
 
             if (fIsPressed == false && debugmode == true) // bei Debug off
             {
-                /* Projectiles test
-                activeProjectilesList.Add(new Projectile(player.playerXPos, player.playerYPos, 20, 5, 10, 10, GameCanvas));
-                */
+                // Projectiles test
+                Weapon myWeapon = new Weapon(10, 1, 1);
+                Enemy nearest = myWeapon.FindNearestEnemy(enemies, player.playerXPos, player.playerYPos);
+                activeProjectilesList.Add(new Projectile(player.playerXPos, player.playerYPos, 200, 5, nearest.enemyXPos, nearest.enemyYPos, GameCanvas));
+                
                 foreach (Enemy enemy in enemies)
                 {
                     GameCanvas.Children.Remove(enemy.debugCenterPoint);
@@ -217,6 +218,8 @@ namespace VampireSurvivorsProjekt
                 debugmode = false;
             }
         }
+
+
 
         private void Form_KeyDown(object sender, KeyEventArgs e)
         {
