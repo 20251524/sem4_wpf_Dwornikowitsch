@@ -80,17 +80,8 @@ namespace VampireSurvivorsProjekt
             //Alles auf den Screen zeichnen
             DrawEverything();
 
-
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {
-                if (enemies[i].isdead == true)
-                {
-                    GameCanvas.Children.Remove(enemies[i].enemychar);  // jeden enemychar entfernen bei dem isdead true ist
-                    GameCanvas.Children.Remove(enemies[i].debugCenterPoint);
-                }
-            }
-
-            enemies.RemoveAll(enemy => enemy.isdead); // für jeden Enemy in der Liste prüfen ob er tod ist und dann entfernen
+            //Gegner entfernen
+            Cleanup();
 
             DebugMode();
         }
@@ -171,6 +162,19 @@ namespace VampireSurvivorsProjekt
                 {
                     Debug.WriteLine("Collision!");
                     enemy.isdead = true;
+                }
+            }
+        }
+
+        private void Cleanup()
+        {
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                if (enemies[i].isdead == true)
+                {
+                    GameCanvas.Children.Remove(enemies[i].enemychar);  // jeden enemychar entfernen bei dem isdead true ist
+                    GameCanvas.Children.Remove(enemies[i].debugCenterPoint);
+                    enemies.RemoveAt(i);
                 }
             }
         }
