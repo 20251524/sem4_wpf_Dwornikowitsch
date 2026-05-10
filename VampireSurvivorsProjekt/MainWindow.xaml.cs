@@ -64,38 +64,14 @@ namespace VampireSurvivorsProjekt
         {
             UpdateDeltaTime();
 
-            activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
 
             SpawnHandling();
 
+            UpdateGameObjects();
+
             DrawEverything();
 
-            // Projectiles Test
-            foreach (Projectile proj in activeProjectilesList)
-            {
-                proj.UpdateProjectile(deltaTime);          
-            }
-            
-
-            //player 
-            player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
-
-
-            //enemy
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
-            }
-
             UpdateCamera();
-
-
-
-            foreach(Enemy enemy in enemies)
-            {
-                enemy.getCenter(); // Updated Mittelpunkt für jeden enemy
-            }
-
 
             foreach (Enemy enemy in enemies)
             {
@@ -165,6 +141,28 @@ namespace VampireSurvivorsProjekt
                 // projectiles
                 Canvas.SetLeft(proj.visual, proj.xPos - cameraX);
                 Canvas.SetTop(proj.visual, proj.yPos - cameraY);
+            }
+        }
+
+        private void UpdateGameObjects()
+        {
+            // Waffe
+            activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
+
+            // Projektile bewegen
+            foreach (Projectile proj in activeProjectilesList)
+            {
+                proj.UpdateProjectile(deltaTime);
+            }
+
+            // Player bewegen
+            player.Move(wIsPressed, aIsPressed, dIsPressed, sIsPressed, deltaTime);
+
+            // Gegner bewegen & Logik
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
+                enemy.getCenter();
             }
         }
 
