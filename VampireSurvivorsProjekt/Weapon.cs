@@ -64,9 +64,27 @@ namespace VampireSurvivorsProjekt
 
         }
 
-        public void UpdateFireball()
+        public void UpdateFireball(double deltaTime, List<Enemy> enemies, Player player, List<Projectile> projectileList, Canvas GameCanvas)
         {
-            
+
+            base.UpdateWeapon(deltaTime); // Cooldown runterzählen
+
+            if (cooldownTimer >= 1 / attacksPerSecond) // CD überprüfen
+            {
+                Enemy nearest = FindNearestEnemy(enemies, player.playerXPos, player.playerYPos);
+
+                if (nearest != null)
+                {
+                    projectileList.Add(new Projectile(
+                        player.playerXPos + (player.playerchar.Width /2), // Start in der Mitte des playerchar
+                        player.playerYPos + (player.playerchar.Height / 2),
+                        300, // speed
+                        this.damage,
+                        nearest.centerX, 
+                        nearest.centerY,
+                        GameCanvas));
+                }
+            }
         }
 
     }

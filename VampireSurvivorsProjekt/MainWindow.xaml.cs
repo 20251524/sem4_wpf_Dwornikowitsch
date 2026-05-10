@@ -40,6 +40,7 @@ namespace VampireSurvivorsProjekt
         int windowHeight = 720;
         public List<Projectile> activeProjectilesList = new List<Projectile>();
         public double deltaTime;
+        Fireball activeFireball;
 
 
         public MainWindow()
@@ -51,6 +52,7 @@ namespace VampireSurvivorsProjekt
             Focus();
             player = new Player(200, 200, 150, GameCanvas);
             enemies = new List<Enemy>();
+            activeFireball = new Fireball();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -64,6 +66,8 @@ namespace VampireSurvivorsProjekt
             deltaTime = currentTime - lastTime; // Zeitdifferenz seit dem letzten Frame (DeltaTime)
             lastTime = currentTime; // Aktuelle Zeit für den nächsten Frame speichern
 
+            activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
+
             //gegner außerhalb des sichtbaren bereichs spawnen
             spawnTimer += deltaTime;
             if(spawnTimer >= spawnInterval) //spawnrate
@@ -76,8 +80,8 @@ namespace VampireSurvivorsProjekt
             foreach (Projectile proj in activeProjectilesList)
             {
                 proj.UpdateProjectile(deltaTime);
-                Canvas.SetLeft(proj.visual, proj.xPos - cameraX +(player.playerchar.ActualWidth / 2));
-                Canvas.SetTop(proj.visual, proj.yPos - cameraY + (player.playerchar.ActualHeight / 2));            
+                Canvas.SetLeft(proj.visual, proj.xPos - cameraX );
+                Canvas.SetTop(proj.visual, proj.yPos - cameraY );            
             }
             
 
@@ -205,10 +209,6 @@ namespace VampireSurvivorsProjekt
 
             if (fIsPressed == false && debugmode == true) // bei Debug off
             {
-                // Projectiles test
-                Weapon myWeapon = new Weapon(10, 1, 1);
-                Enemy nearest = myWeapon.FindNearestEnemy(enemies, player.playerXPos, player.playerYPos);
-                activeProjectilesList.Add(new Projectile(player.playerXPos, player.playerYPos, 200, 5, nearest.enemyXPos, nearest.enemyYPos, GameCanvas));
                 
                 foreach (Enemy enemy in enemies)
                 {
