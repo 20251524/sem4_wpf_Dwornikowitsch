@@ -66,13 +66,7 @@ namespace VampireSurvivorsProjekt
 
             activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
 
-            //gegner außerhalb des sichtbaren bereichs spawnen
-            spawnTimer += deltaTime;
-            if(spawnTimer >= spawnInterval) //spawnrate
-            {
-                SpawnEnemies();
-                spawnTimer = 0;
-            }
+            SpawnHandling();
 
             // Projectiles Test
             foreach (Projectile proj in activeProjectilesList)
@@ -148,6 +142,17 @@ namespace VampireSurvivorsProjekt
             double currentTime = stopwatch.Elapsed.TotalSeconds; // Zeit seit Start des Spiels in Sekunden
             deltaTime = currentTime - lastTime; // Zeitdifferenz seit dem letzten Frame (DeltaTime)
             lastTime = currentTime; // Aktuelle Zeit für den nächsten Frame speichern
+        }
+
+        private void SpawnHandling()
+        {
+            //gegner außerhalb des sichtbaren bereichs spawnen
+            spawnTimer += deltaTime;
+            if (spawnTimer >= spawnInterval) //spawnrate
+            {
+                SpawnEnemies();
+                spawnTimer = 0;
+            }
         }
 
 
