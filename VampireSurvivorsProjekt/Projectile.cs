@@ -19,6 +19,7 @@ namespace VampireSurvivorsProjekt
         double damage;
         public Shape visual;
         double radius;
+        public bool toRemove;
 
         public Projectile(double xPos, double yPos, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas)
         {

@@ -172,6 +172,7 @@ namespace VampireSurvivorsProjekt
                     if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
                     {
                         enemy.isdead = true;
+                        proj.toRemove = true;
                     }
                 }
             }
@@ -188,6 +189,17 @@ namespace VampireSurvivorsProjekt
                     enemies.RemoveAt(i);
                 }
             }
+            
+            for(int i = activeProjectilesList.Count - 1; i>= 0; i--)
+            {
+                if (activeProjectilesList[i].toRemove == true)
+                {
+                    GameCanvas.Children.Remove(activeProjectilesList[i].visual);
+                    activeProjectilesList.RemoveAt(i);
+                }
+
+            }
+            
         }
 
 
