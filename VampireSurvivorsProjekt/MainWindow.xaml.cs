@@ -163,6 +163,17 @@ namespace VampireSurvivorsProjekt
                     Debug.WriteLine("Collision!");
                     enemy.isdead = true;
                 }
+
+                foreach(Projectile proj in activeProjectilesList)
+                {
+                    double pdx = proj.xPos - enemy.centerX;
+                    double pdy = proj.yPos - enemy.centerY;
+
+                    if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
+                    {
+                        enemy.isdead = true;
+                    }
+                }
             }
         }
 
