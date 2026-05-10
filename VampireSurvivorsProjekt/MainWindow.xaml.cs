@@ -62,9 +62,7 @@ namespace VampireSurvivorsProjekt
 
         private void GameLoop(object sender, EventArgs e)
         {
-            double currentTime = stopwatch.Elapsed.TotalSeconds; // Zeit seit Start des Spiels in Sekunden
-            deltaTime = currentTime - lastTime; // Zeitdifferenz seit dem letzten Frame (DeltaTime)
-            lastTime = currentTime; // Aktuelle Zeit für den nächsten Frame speichern
+            UpdateDeltaTime();
 
             activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
 
@@ -143,6 +141,13 @@ namespace VampireSurvivorsProjekt
             enemies.RemoveAll(enemy => enemy.isdead); // für jeden Enemy in der Liste prüfen ob er tod ist und dann entfernen
 
             DebugMode();
+        }
+
+        private void UpdateDeltaTime()
+        {
+            double currentTime = stopwatch.Elapsed.TotalSeconds; // Zeit seit Start des Spiels in Sekunden
+            deltaTime = currentTime - lastTime; // Zeitdifferenz seit dem letzten Frame (DeltaTime)
+            lastTime = currentTime; // Aktuelle Zeit für den nächsten Frame speichern
         }
 
 
