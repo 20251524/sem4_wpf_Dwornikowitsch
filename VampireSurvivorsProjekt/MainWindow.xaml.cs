@@ -68,12 +68,12 @@ namespace VampireSurvivorsProjekt
 
             SpawnHandling();
 
+            DrawEverything();
+
             // Projectiles Test
             foreach (Projectile proj in activeProjectilesList)
             {
-                proj.UpdateProjectile(deltaTime);
-                Canvas.SetLeft(proj.visual, proj.xPos - cameraX );
-                Canvas.SetTop(proj.visual, proj.yPos - cameraY );            
+                proj.UpdateProjectile(deltaTime);          
             }
             
 
@@ -89,14 +89,6 @@ namespace VampireSurvivorsProjekt
 
             UpdateCamera();
 
-            Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX);
-            Canvas.SetTop(player.playerchar, player.playerYPos - cameraY);
-
-            foreach (Enemy enemy in enemies)
-            {
-                Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos - cameraX);
-                Canvas.SetTop(enemy.enemychar, enemy.enemyYPos - cameraY);
-            }
 
 
             foreach(Enemy enemy in enemies)
@@ -152,6 +144,27 @@ namespace VampireSurvivorsProjekt
             {
                 SpawnEnemies();
                 spawnTimer = 0;
+            }
+        }
+
+        private void DrawEverything()
+        {
+            foreach (Projectile proj in activeProjectilesList)
+            {
+                // Player
+                Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX);
+                Canvas.SetTop(player.playerchar, player.playerYPos - cameraY);
+
+                // Enemies
+                foreach (Enemy enemy in enemies)
+                {
+                    Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos - cameraX);
+                    Canvas.SetTop(enemy.enemychar, enemy.enemyYPos - cameraY);
+                }
+
+                // projectiles
+                Canvas.SetLeft(proj.visual, proj.xPos - cameraX);
+                Canvas.SetTop(proj.visual, proj.yPos - cameraY);
             }
         }
 
