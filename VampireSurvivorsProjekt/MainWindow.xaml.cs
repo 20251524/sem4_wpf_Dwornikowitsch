@@ -41,6 +41,7 @@ namespace VampireSurvivorsProjekt
         public List<Projectile> activeProjectilesList = new List<Projectile>();
         public double deltaTime;
         Fireball activeFireball;
+        Knife activeKnife;
 
 
         public MainWindow()
@@ -53,6 +54,7 @@ namespace VampireSurvivorsProjekt
             player = new Player(200, 200, 150, GameCanvas);
             enemies = new List<Enemy>();
             activeFireball = new Fireball();
+            activeKnife = new Knife();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -129,6 +131,7 @@ namespace VampireSurvivorsProjekt
         {
             // Waffe
             activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
+            activeKnife.UpdateKnife(deltaTime, player, activeProjectilesList, GameCanvas);
 
             // Projektile bewegen
             foreach (Projectile proj in activeProjectilesList)

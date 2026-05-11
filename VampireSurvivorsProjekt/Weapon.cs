@@ -57,13 +57,37 @@ namespace VampireSurvivorsProjekt
         }
     }
 
-   
+   public class Knife : Weapon
+    {
+        public Knife() : base(10, 2, 100)
+        {
+
+        }
+
+        public void UpdateKnife(double deltaTime, Player player, List<Projectile> projectileList, Canvas GameCanvas)
+        {
+            base.UpdateWeapon(deltaTime);
+
+            if(cooldownTimer >= 1 /  attacksPerSecond)
+            {
+                projectileList.Add(new Projectile(
+                player.playerXPos + (player.playerchar.Width / 2), // Start in der Mitte des playerchar
+                player.playerYPos + (player.playerchar.Height / 2),
+                300, // speed
+                this.damage,
+                player.xDirection,
+                player.yDirection,
+                GameCanvas));
+
+            }
+        }
+    }
 
     public class Fireball : Weapon
     {
-        public Fireball() : base(5, 10, 100) // Fireball konstruktor ruft die base klasse auf
+        public Fireball() : base(5, 1, 100) // Fireball konstruktor ruft die base klasse auf
         {
-
+            
         }
 
         public void UpdateFireball(double deltaTime, List<Enemy> enemies, Player player, List<Projectile> projectileList, Canvas GameCanvas)
