@@ -16,7 +16,7 @@ namespace VampireSurvivorsProjekt
         double xDir;
         double yDir;
         double speed;
-        double damage;
+        public double damage;
         public Shape visual;
         double radius;
         public bool toRemove;

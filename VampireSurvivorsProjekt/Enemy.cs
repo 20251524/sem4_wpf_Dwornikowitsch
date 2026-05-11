@@ -25,6 +25,7 @@ namespace VampireSurvivorsProjekt
         public double radius;
         public bool isdead = false;
         public Ellipse debugCenterPoint;
+        public double health = 10;
 
         public Enemy(double enemyXPos, double enemyYPos,  double enemySpeed, Canvas GameCanvas)
         {

@@ -171,7 +171,11 @@ namespace VampireSurvivorsProjekt
 
                     if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
                     {
-                        enemy.isdead = true;
+                        enemy.health -= proj.damage;
+                        if (enemy.health <= 0)
+                        {
+                            enemy.isdead = true;
+                        }
                         proj.toRemove = true;
                     }
                 }

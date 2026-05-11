@@ -57,9 +57,11 @@ namespace VampireSurvivorsProjekt
         }
     }
 
+   
+
     public class Fireball : Weapon
     {
-        public Fireball() : base(5, 1, 100) // Fireball konstruktor ruft die base klasse auf
+        public Fireball() : base(5, 10, 100) // Fireball konstruktor ruft die base klasse auf
         {
 
         }
