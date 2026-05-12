@@ -128,6 +128,12 @@ namespace VampireSurvivorsProjekt
                 Canvas.SetLeft(proj.visual, proj.xPos - cameraX);
                 Canvas.SetTop(proj.visual, proj.yPos - cameraY);
             }
+
+            foreach(ExperienceOrb orb in ExpOrbsList)
+            {
+                Canvas.SetLeft(orb.visual, orb.orbXPos - cameraX);
+                Canvas.SetTop(orb.visual , orb.orbYPos - cameraY);
+            }
         }
 
         private void UpdateGameObjects()
@@ -196,7 +202,7 @@ namespace VampireSurvivorsProjekt
                 {
                     GameCanvas.Children.Remove(enemies[i].enemychar);  // jeden enemychar entfernen bei dem isdead true ist
                     GameCanvas.Children.Remove(enemies[i].debugCenterPoint);
-                    ExpOrbsList.Add(new BlueOrb(enemies[i].centerX, enemies[i].centerY));
+                    ExpOrbsList.Add(new BlueOrb(enemies[i].centerX, enemies[i].centerY, GameCanvas));
                     enemies.RemoveAt(i);
                 }
             }
