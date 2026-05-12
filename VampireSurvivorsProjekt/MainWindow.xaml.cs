@@ -287,6 +287,8 @@ namespace VampireSurvivorsProjekt
             {
                 Canvas.SetLeft(player.playerhitboxdebug, player.playerhitbox.Left - cameraX);
                 Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top - cameraY);
+                Canvas.SetLeft(player.pickupRangeDebug, player.playerXPos - cameraX);
+                Canvas.SetTop(player.pickupRangeDebug, player.playerYPos - cameraY);
 
                 foreach (Enemy enemy in enemies)
                 {
@@ -300,6 +302,7 @@ namespace VampireSurvivorsProjekt
                 if (debugmode == false)
                 {                   
                     GameCanvas.Children.Add(player.playerhitboxdebug);
+                    GameCanvas.Children.Add(player.pickupRangeDebug);
                     debugmode = true;
                 }
 
@@ -313,6 +316,7 @@ namespace VampireSurvivorsProjekt
                     GameCanvas.Children.Remove(enemy.debugCenterPoint);
                 }
                 GameCanvas.Children.Remove(player.playerhitboxdebug);
+                GameCanvas.Children.Remove(player.pickupRangeDebug);
                 debugmode = false;
             }
         }

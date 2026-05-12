@@ -25,6 +25,7 @@ namespace VampireSurvivorsProjekt
         public Rect playerhitbox;
         public Rectangle playerhitboxdebug;
         public double pickupRange = 100;
+        public Ellipse pickupRangeDebug;
         
 
         public Player(double playerXpos, double playerYPos, double playerSpeed, Canvas GameCanvas)
@@ -46,6 +47,13 @@ namespace VampireSurvivorsProjekt
             playerhitboxdebug.Fill = Brushes.Transparent;
             playerhitboxdebug.Stroke = Brushes.Black;
             playerhitboxdebug.StrokeThickness = 2;
+
+            pickupRangeDebug = new Ellipse();
+            pickupRangeDebug.Width = pickupRange;
+            pickupRangeDebug.Height = pickupRange;
+            pickupRangeDebug.Fill = Brushes.Transparent;
+            pickupRangeDebug.Stroke = Brushes.Orange;
+            pickupRangeDebug.StrokeThickness = 2;
 
 
             GameCanvas.Children.Add(playerchar);
