@@ -42,6 +42,7 @@ namespace VampireSurvivorsProjekt
         public double deltaTime;
         Fireball activeFireball;
         Knife activeKnife;
+        public List<ExperienceOrb> ExpOrbsList; 
 
 
         public MainWindow()
@@ -55,6 +56,7 @@ namespace VampireSurvivorsProjekt
             enemies = new List<Enemy>();
             activeFireball = new Fireball();
             activeKnife = new Knife();
+            ExpOrbsList = new List<ExperienceOrb>();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -108,18 +110,19 @@ namespace VampireSurvivorsProjekt
 
         private void DrawEverything()
         {
+            // Player
+            Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX);
+            Canvas.SetTop(player.playerchar, player.playerYPos - cameraY);
+
+            // Enemies
+            foreach (Enemy enemy in enemies)
+            {
+                Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos - cameraX);
+                Canvas.SetTop(enemy.enemychar, enemy.enemyYPos - cameraY);
+            }
+
             foreach (Projectile proj in activeProjectilesList)
             {
-                // Player
-                Canvas.SetLeft(player.playerchar, player.playerXPos - cameraX);
-                Canvas.SetTop(player.playerchar, player.playerYPos - cameraY);
-
-                // Enemies
-                foreach (Enemy enemy in enemies)
-                {
-                    Canvas.SetLeft(enemy.enemychar, enemy.enemyXPos - cameraX);
-                    Canvas.SetTop(enemy.enemychar, enemy.enemyYPos - cameraY);
-                }
 
                 // projectiles
                 Canvas.SetLeft(proj.visual, proj.xPos - cameraX);
@@ -193,6 +196,7 @@ namespace VampireSurvivorsProjekt
                 {
                     GameCanvas.Children.Remove(enemies[i].enemychar);  // jeden enemychar entfernen bei dem isdead true ist
                     GameCanvas.Children.Remove(enemies[i].debugCenterPoint);
+                    ExpOrbsList.Add(new BlueOrb(enemies[i].centerX, enemies[i].centerY));
                     enemies.RemoveAt(i);
                 }
             }
