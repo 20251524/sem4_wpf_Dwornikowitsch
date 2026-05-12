@@ -131,7 +131,7 @@ namespace VampireSurvivorsProjekt
         {
             // Waffe
             activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
-            activeKnife.UpdateKnife(deltaTime, player, activeProjectilesList, GameCanvas);
+            activeKnife.UpdateShuriken(deltaTime, player, activeProjectilesList, GameCanvas);
 
             // Projektile bewegen
             foreach (Projectile proj in activeProjectilesList)

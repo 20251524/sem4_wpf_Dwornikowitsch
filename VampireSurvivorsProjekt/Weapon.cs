@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace VampireSurvivorsProjekt
 {
@@ -59,25 +61,31 @@ namespace VampireSurvivorsProjekt
 
    public class Knife : Weapon
     {
+       
         public Knife() : base(10, 2, 100)
         {
 
         }
 
-        public void UpdateKnife(double deltaTime, Player player, List<Projectile> projectileList, Canvas GameCanvas)
+        public void UpdateShuriken(double deltaTime, Player player, List<Projectile> projectileList, Canvas GameCanvas)
         {
             base.UpdateWeapon(deltaTime);
 
             if(cooldownTimer >= 1 /  attacksPerSecond)
             {
+                Shape shurikenVisual = new Ellipse { Width = 10, Height = 10, Fill = Brushes.Silver };
+                double targetX = player.playerXPos + (player.playerchar.Width / 2) + (player.xDirection );
+                double targetY = player.playerYPos + (player.playerchar.Height / 2) + (player.yDirection );
+
                 projectileList.Add(new Projectile(
                 player.playerXPos + (player.playerchar.Width / 2), // Start in der Mitte des playerchar
                 player.playerYPos + (player.playerchar.Height / 2),
                 300, // speed
                 this.damage,
-                player.xDirection,
-                player.yDirection,
-                GameCanvas));
+                targetX,
+                targetY,
+                GameCanvas,
+                shurikenVisual));
 
             }
         }
@@ -85,6 +93,7 @@ namespace VampireSurvivorsProjekt
 
     public class Fireball : Weapon
     {
+
         public Fireball() : base(5, 1, 100) // Fireball konstruktor ruft die base klasse auf
         {
             
@@ -101,14 +110,17 @@ namespace VampireSurvivorsProjekt
 
                 if (nearest != null)
                 {
-                    projectileList.Add(new Projectile(
+                        Shape fireballVisual = new Ellipse { Width = 15, Height = 15, Fill = Brushes.OrangeRed };
+
+                        projectileList.Add(new Projectile(
                         player.playerXPos + (player.playerchar.Width /2), // Start in der Mitte des playerchar
                         player.playerYPos + (player.playerchar.Height / 2),
                         300, // speed
                         this.damage,
                         nearest.centerX, 
                         nearest.centerY,
-                        GameCanvas));
+                        GameCanvas,
+                        fireballVisual));
                 }
             }
         }

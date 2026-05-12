@@ -17,11 +17,11 @@ namespace VampireSurvivorsProjekt
         double yDir;
         double speed;
         public double damage;
-        public Shape visual;
         double radius;
         public bool toRemove;
+        public Shape visual;
 
-        public Projectile(double xPos, double yPos, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas)
+        public Projectile(double xPos, double yPos, double speed, double damage, double xTarget, double yTarget, Canvas GameCanvas, Shape customVisual)
         {
             this.xPos = xPos;
             this.yPos = yPos;
@@ -37,8 +37,8 @@ namespace VampireSurvivorsProjekt
                 this.xDir = xDir / length;
                 this.yDir = yDir / length;
             }
-            
-            visual = new Ellipse { Width = 10, Height = 10, Fill = System.Windows.Media.Brushes.Orange };
+                    
+            this.visual = customVisual;
             GameCanvas.Children.Add(visual);
             radius = visual.Width / 2;
         }
