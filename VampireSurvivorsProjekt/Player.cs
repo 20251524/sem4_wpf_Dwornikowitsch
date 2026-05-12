@@ -24,6 +24,7 @@ namespace VampireSurvivorsProjekt
         public Rectangle playerchar;
         public Rect playerhitbox;
         public Rectangle playerhitboxdebug;
+        public double pickupRange = 100;
         
 
         public Player(double playerXpos, double playerYPos, double playerSpeed, Canvas GameCanvas)

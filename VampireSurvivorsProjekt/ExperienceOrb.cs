@@ -15,6 +15,7 @@ namespace VampireSurvivorsProjekt
         public double orbYPos;
         double xpValue;
         public Shape visual;
+        public bool isCollected = false;
 
         public ExperienceOrb(double enemyCenterX, double enemyCenterY, double xpValue, Shape visual, Canvas GameCanvas)
         {

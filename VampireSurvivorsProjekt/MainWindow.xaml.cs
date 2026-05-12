@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -192,9 +193,19 @@ namespace VampireSurvivorsProjekt
                     }
                 }
             }
+
+            double playerCenterX = player.playerXPos + (player.playerchar.Width / 2);
+            double playerCenterY = player.playerYPos + (player.playerchar.Height / 2);
+
             foreach(ExperienceOrb orb in ExpOrbsList)
             {
-                orb.UpdateOrb();
+                double dx = orb.orbXPos - playerCenterX;
+                double dy = orb.orbYPos - playerCenterY;
+
+                if((dx * dx + dy * dy) < (player.pickupRange * player.pickupRange))
+                {
+                    orb.isCollected = true;
+                }
             }
         }
 
@@ -220,7 +231,17 @@ namespace VampireSurvivorsProjekt
                 }
 
             }
-            
+
+            for (int i = ExpOrbsList.Count - 1; i >= 0; i--)
+            {
+                if (ExpOrbsList[i].isCollected == true)
+                {
+                    GameCanvas.Children.Remove(ExpOrbsList[i].visual);
+                    ExpOrbsList.RemoveAt(i);
+                }
+
+            }
+
         }
 
 
