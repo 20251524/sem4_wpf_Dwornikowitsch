@@ -178,8 +178,8 @@ namespace VampireSurvivorsProjekt
 
                 foreach(Projectile proj in activeProjectilesList)
                 {
-                    double pdx = proj.xPos - enemy.centerX;
-                    double pdy = proj.yPos - enemy.centerY;
+                    double pdx = (proj.xPos + proj.radius) - enemy.centerX; // +proj.radius damit die distanz vom zentrum aus berechnet wird
+                    double pdy = (proj.yPos + proj.radius) - enemy.centerY;
 
                     if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
                     {
@@ -191,6 +191,10 @@ namespace VampireSurvivorsProjekt
                         proj.toRemove = true;
                     }
                 }
+            }
+            foreach(ExperienceOrb orb in ExpOrbsList)
+            {
+                orb.UpdateOrb();
             }
         }
 
