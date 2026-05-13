@@ -13,12 +13,24 @@
         <Canvas x:Name="GameCanvas" Background="Green">
 
         </Canvas>
-        <ProgressBar Name="XpBar"
-                     Minimum="0"
-                     Maximum="10" 
-                     VerticalAlignment="Top" 
-                     Height="20"
-                     Value="0"></ProgressBar>
+
+        <Border VerticalAlignment="Top"
+                BorderThickness="3"
+                CornerRadius="3"
+                Padding="1"
+                BorderBrush="Gold">
+
+            <ProgressBar Name="XpBar" 
+             Height="20" 
+             VerticalAlignment="Top" 
+             Foreground="#FF00E5FF" 
+             Background="#44000000" 
+             BorderThickness="0"
+             Minimum="0" 
+             Maximum="10" 
+             Value="0" />
+        </Border>
+
 
         <StackPanel>
 
