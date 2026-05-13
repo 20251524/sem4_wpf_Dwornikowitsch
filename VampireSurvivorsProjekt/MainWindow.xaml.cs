@@ -132,8 +132,8 @@ namespace VampireSurvivorsProjekt
 
             foreach(ExperienceOrb orb in ExpOrbsList)
             {
-                Canvas.SetLeft(orb.visual, orb.orbXPos - cameraX);
-                Canvas.SetTop(orb.visual , orb.orbYPos - cameraY);
+                Canvas.SetLeft(orb.visual, orb.orbXPos - cameraX - orb.radius);
+                Canvas.SetTop(orb.visual , orb.orbYPos - cameraY - orb.radius);
             }
         }
 
@@ -179,8 +179,8 @@ namespace VampireSurvivorsProjekt
 
                 foreach(Projectile proj in activeProjectilesList)
                 {
-                    double pdx = (proj.xPos + proj.radius) - enemy.centerX; // +proj.radius damit die distanz vom zentrum aus berechnet wird
-                    double pdy = (proj.yPos + proj.radius) - enemy.centerY;
+                    double pdx = proj.xPos - enemy.centerX; // +proj.radius damit die distanz vom zentrum aus berechnet wird
+                    double pdy = proj.yPos - enemy.centerY;
 
                     if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
                     {
@@ -199,10 +199,10 @@ namespace VampireSurvivorsProjekt
 
             foreach(ExperienceOrb orb in ExpOrbsList)
             {
-                double dx = orb.orbXPos - playerCenterX;
-                double dy = orb.orbYPos - playerCenterY;
+                double dx = orb.orbXPos - playerCenterX; // X Distanz
+                double dy = orb.orbYPos - playerCenterY; // Y Distanz
 
-                if((dx * dx + dy * dy) < (player.pickupRange * player.pickupRange))
+                if((dx * dx + dy * dy) < (player.pickupRange * player.pickupRange)) // Pythagoras
                 {
                     orb.isCollected = true;
                 }
@@ -237,6 +237,7 @@ namespace VampireSurvivorsProjekt
                 if (ExpOrbsList[i].isCollected == true)
                 {
                     GameCanvas.Children.Remove(ExpOrbsList[i].visual);
+                    GameCanvas.Children.Remove(ExpOrbsList[i].debugCenterPoint);
                     ExpOrbsList.RemoveAt(i);
                 }
 
@@ -287,8 +288,14 @@ namespace VampireSurvivorsProjekt
             {
                 Canvas.SetLeft(player.playerhitboxdebug, player.playerhitbox.Left - cameraX);
                 Canvas.SetTop(player.playerhitboxdebug, player.playerhitbox.Top - cameraY);
-                Canvas.SetLeft(player.pickupRangeDebug, player.playerXPos - cameraX);
-                Canvas.SetTop(player.pickupRangeDebug, player.playerYPos - cameraY);
+
+                // Berechnet die vertikale Position des Sammel-Radius:
+                // 1. (player.playerYPos + player.playerchar.Height / 2) -> Ermittelt die Mitte des Spielers
+                // 2. - cameraY -> Rechnet die Welt-Position in die aktuelle Bildschirm-Position um
+                // 3. - player.pickupRange -> Verschiebt den Kreis um seinen Radius nach oben, 
+                //    damit sein Mittelpunkt (nicht die Ecke) auf dem Spieler liegt.
+                Canvas.SetLeft(player.pickupRangeDebug, (player.playerXPos + player.playerchar.Width / 2) - cameraX - player.pickupRange);
+                Canvas.SetTop(player.pickupRangeDebug, (player.playerYPos + player.playerchar.Height / 2) - cameraY - player.pickupRange);
 
                 foreach (Enemy enemy in enemies)
                 {
@@ -298,6 +305,16 @@ namespace VampireSurvivorsProjekt
                     }
                     Canvas.SetLeft(enemy.debugCenterPoint, enemy.centerX - cameraX);
                     Canvas.SetTop(enemy.debugCenterPoint, enemy.centerY - cameraY);
+                }
+
+                foreach(ExperienceOrb orb in ExpOrbsList)
+                {
+                    if(GameCanvas.Children.Contains(orb.debugCenterPoint) == false)
+                    {
+                        GameCanvas.Children.Add(orb.debugCenterPoint);
+                    }
+                    Canvas.SetLeft(orb.debugCenterPoint, orb.orbXPos - cameraX - (orb.debugCenterPoint.Width / 2));
+                    Canvas.SetTop(orb.debugCenterPoint, orb.orbYPos - cameraY - (orb.debugCenterPoint.Height / 2));
                 }
                 if (debugmode == false)
                 {                   
@@ -315,6 +332,12 @@ namespace VampireSurvivorsProjekt
                 {
                     GameCanvas.Children.Remove(enemy.debugCenterPoint);
                 }
+
+                foreach(ExperienceOrb orb in ExpOrbsList)
+                {
+                    GameCanvas.Children.Remove(orb.debugCenterPoint);
+                }
+
                 GameCanvas.Children.Remove(player.playerhitboxdebug);
                 GameCanvas.Children.Remove(player.pickupRangeDebug);
                 debugmode = false;

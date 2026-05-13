@@ -49,8 +49,8 @@ namespace VampireSurvivorsProjekt
             playerhitboxdebug.StrokeThickness = 2;
 
             pickupRangeDebug = new Ellipse();
-            pickupRangeDebug.Width = pickupRange;
-            pickupRangeDebug.Height = pickupRange;
+            pickupRangeDebug.Width = pickupRange * 2; // pickuprange = radius // deshalb width * 2 = radius
+            pickupRangeDebug.Height = pickupRange * 2;
             pickupRangeDebug.Fill = Brushes.Transparent;
             pickupRangeDebug.Stroke = Brushes.Orange;
             pickupRangeDebug.StrokeThickness = 2;
