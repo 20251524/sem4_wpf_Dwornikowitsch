@@ -14,7 +14,7 @@ namespace VampireSurvivorsProjekt
     {
         public double orbXPos;
         public double orbYPos;
-        double xpValue;
+        public double xpValue;
         public Shape visual;
         public bool isCollected = false;
         public Shape debugCenterPoint;
@@ -26,6 +26,7 @@ namespace VampireSurvivorsProjekt
             this.orbXPos = enemyCenterX;
             this.orbYPos = enemyCenterY;
             this.visual = visual;
+            this.xpValue = xpValue;
             this.radius = this.visual.Width / 2; // radius anhand des visuals berechnen. Koordinaten funktionieren nicht weil sie sich verändern!!!
 
             debugCenterPoint = new Ellipse();

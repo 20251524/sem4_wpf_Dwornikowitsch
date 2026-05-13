@@ -205,6 +205,7 @@ namespace VampireSurvivorsProjekt
                 if((dx * dx + dy * dy) < (player.pickupRange * player.pickupRange)) // Pythagoras
                 {
                     orb.isCollected = true;
+                    XpBar.Value += orb.xpValue; 
                 }
             }
         }
@@ -313,7 +314,7 @@ namespace VampireSurvivorsProjekt
                     {
                         GameCanvas.Children.Add(orb.debugCenterPoint);
                     }
-                    Canvas.SetLeft(orb.debugCenterPoint, orb.orbXPos - cameraX - (orb.debugCenterPoint.Width / 2));
+                    Canvas.SetLeft(orb.debugCenterPoint, orb.orbXPos - cameraX - (orb.debugCenterPoint.Width / 2)); // debugCenterPoint / 2 für den Mittelpunkt
                     Canvas.SetTop(orb.debugCenterPoint, orb.orbYPos - cameraY - (orb.debugCenterPoint.Height / 2));
                 }
                 if (debugmode == false)
