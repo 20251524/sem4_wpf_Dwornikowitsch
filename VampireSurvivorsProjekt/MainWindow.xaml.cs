@@ -44,7 +44,12 @@ namespace VampireSurvivorsProjekt
         Fireball activeFireball;
         Knife activeKnife;
         public List<ExperienceOrb> ExpOrbsList;
-        bool ispaused = false;
+        bool isPaused = false;
+
+        //Upgrade Level variablen
+        int speedLevel = 1;
+        int rangeLevel = 1;
+        int fireballLevel = 1;
 
 
         public MainWindow()
@@ -68,9 +73,12 @@ namespace VampireSurvivorsProjekt
 
         private void GameLoop(object sender, EventArgs e)
         {
-            while(ispaused == true)
+            //Schutz Klausel
+            //Durch das return wird die Methode beendet und das Programm geht aus dem Gameloop raus
+            //und ignoriert alles was danach kommt. Effekt = Programm wird pausiert.
+            if(isPaused== true)
             {
-                
+                return;
             }
             //Zeit Berechnung
             UpdateDeltaTime();
@@ -223,8 +231,45 @@ namespace VampireSurvivorsProjekt
 
         private void TriggerLevelUp()
         {
-            ispaused = true;
+            isPaused = true;
             LevelUpMenu.Visibility = Visibility.Visible;
+
+            BtnSpeed.Content = $"Laufschuhe (Lvl {speedLevel} -> {speedLevel + 1})";
+            BtnRange.Content = $"Magnet (Lvl {rangeLevel} -> {rangeLevel + 1})";
+            BtnFireball.Content = $"Feuerball (Lvl {fireballLevel} -> {fireballLevel + 1})";
+        }
+
+        private void HandleUpgrade(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = (Button)sender;
+            string upgradeType = clickedButton.Tag.ToString();
+
+            switch (upgradeType)
+            {
+                case "speed":
+                    player.playerSpeed += 20; 
+                    speedLevel++;
+                    break;
+                case "range":
+                    player.pickupRange += 25;
+                    rangeLevel++;
+                    break;
+                case "fireball":
+                    fireballLevel++;
+                    if (fireballLevel == 2) activeFireball.damage += 5;
+                    else if (fireballLevel == 3) activeFireball.attacksPerSecond += 0.5;
+                    else activeFireball.damage += 2;
+                    break;
+            }
+
+            // UI schließen und Pause beenden
+            LevelUpMenu.Visibility = Visibility.Collapsed;
+            isPaused = false;
+
+            // Xp Value weitergeben und gebrauchte Xp für lvl up erhöhen
+            double currentOverfill = XpBar.Value - XpBar.Maximum;
+            XpBar.Maximum *= 1.2;
+            XpBar.Value = currentOverfill; // Falls man mehr XP gesammelt hat, als für das Lvl nötig war
         }
 
         private void Cleanup()

@@ -37,9 +37,9 @@
                 <StackPanel>
                     <TextBlock Text="LEVEL UP!" FontSize="36" Foreground="Gold" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold"/>
 
-                    <Button Name="BtnSpeed" Content="Geschwindigkeit" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
-                    <Button Name="BtnRange" Content="Feuerball" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
-                    <Button Name="BtnFireball" Content="Schaden" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
+                    <Button Name="BtnSpeed" Content="Laufschuhe" Tag="speed" Click="HandleUpgrade" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
+                    <Button Name="BtnRange" Content="Magnet" Tag="range" Click="HandleUpgrade" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
+                    <Button Name="BtnFireball" Content="Feuerball" Tag="fireball" Click="HandleUpgrade" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
                 </StackPanel>
             </Border>
         </Grid>

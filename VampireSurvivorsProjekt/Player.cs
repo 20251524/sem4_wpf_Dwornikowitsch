@@ -18,7 +18,7 @@ namespace VampireSurvivorsProjekt
 
         public double playerXPos = 100;
         public double playerYPos = 100;
-        double playerSpeed = 150;
+        public double playerSpeed = 150;
         public double xDirection;
         public double yDirection;
         public Rectangle playerchar;
