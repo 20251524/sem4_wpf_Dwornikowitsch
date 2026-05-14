@@ -32,9 +32,17 @@
         </Border>
 
 
-        <StackPanel>
+        <Grid Name="LevelUpMenu" Visibility="Visible" Background="#AA000000">
+            <Border Background="#222222" CornerRadius="10" Padding="30" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gold" BorderThickness="2">
+                <StackPanel>
+                    <TextBlock Text="LEVEL UP!" FontSize="36" Foreground="Gold" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold"/>
 
-        </StackPanel>
+                    <Button Name="BtnSpeed" Content="Geschwindigkeit" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
+                    <Button Name="BtnRange" Content="Feuerball" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
+                    <Button Name="BtnFireball" Content="Schaden" Margin="5" Width="250" Padding="10" Background="#333" Foreground="White"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 
 
