@@ -43,7 +43,8 @@ namespace VampireSurvivorsProjekt
         public double deltaTime;
         Fireball activeFireball;
         Knife activeKnife;
-        public List<ExperienceOrb> ExpOrbsList; 
+        public List<ExperienceOrb> ExpOrbsList;
+        bool ispaused = false;
 
 
         public MainWindow()
@@ -67,6 +68,10 @@ namespace VampireSurvivorsProjekt
 
         private void GameLoop(object sender, EventArgs e)
         {
+            while(ispaused == true)
+            {
+                
+            }
             //Zeit Berechnung
             UpdateDeltaTime();
 
@@ -89,6 +94,7 @@ namespace VampireSurvivorsProjekt
             Cleanup();
 
             DebugMode();
+          
         }
 
         private void UpdateDeltaTime()
@@ -206,8 +212,19 @@ namespace VampireSurvivorsProjekt
                 {
                     orb.isCollected = true;
                     XpBar.Value += orb.xpValue; 
+
+                    if(XpBar.Value >= XpBar.Maximum)
+                    {
+                        TriggerLevelUp();
+                    }
                 }
             }
+        }
+
+        private void TriggerLevelUp()
+        {
+            ispaused = true;
+            LevelUpMenu.Visibility = Visibility.Visible;
         }
 
         private void Cleanup()

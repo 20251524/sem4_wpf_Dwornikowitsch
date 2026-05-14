@@ -32,7 +32,7 @@
         </Border>
 
 
-        <Grid Name="LevelUpMenu" Visibility="Visible" Background="#AA000000">
+        <Grid Name="LevelUpMenu" Visibility="Collapsed" Background="#AA000000">
             <Border Background="#222222" CornerRadius="10" Padding="30" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gold" BorderThickness="2">
                 <StackPanel>
                     <TextBlock Text="LEVEL UP!" FontSize="36" Foreground="Gold" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold"/>
