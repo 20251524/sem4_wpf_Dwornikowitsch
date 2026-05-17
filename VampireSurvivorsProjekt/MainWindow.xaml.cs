@@ -161,6 +161,19 @@ namespace VampireSurvivorsProjekt
             foreach (Projectile proj in activeProjectilesList)
             {
                 proj.UpdateProjectile(deltaTime);
+
+                // Abstand zur Kamera
+                double diffX = proj.xPos - cameraX;
+                double diffY = proj.yPos - cameraY;
+
+                // Puffer sonst verschwinden Projektile im Sichtfeld
+                double buffer = 100;
+
+                // Überprüfung
+                if (diffX < -buffer || diffX > windowWidth + buffer || diffY < -buffer || diffY > windowHeight + buffer)
+                {
+                    proj.toRemove = true;
+                }
             }
 
             // Player bewegen
