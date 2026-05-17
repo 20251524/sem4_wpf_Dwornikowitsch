@@ -266,6 +266,12 @@ namespace VampireSurvivorsProjekt
                     break;
                 case "range":
                     player.pickupRange += 25;
+                    // Neu berechnen damit es nach lvlup nicht verbuggt ist
+                    player.pickupRangeDebug.Width = player.pickupRange * 2;
+                    player.pickupRangeDebug.Height = player.pickupRange * 2;
+
+                    Canvas.SetLeft(player.pickupRangeDebug, (player.playerXPos + player.playerchar.Width / 2) - cameraX - player.pickupRange);
+                    Canvas.SetTop(player.pickupRangeDebug, (player.playerYPos + player.playerchar.Height / 2) - cameraY - player.pickupRange);
                     rangeLevel++;
                     break;
                 case "fireball":
