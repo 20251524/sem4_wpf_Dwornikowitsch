@@ -245,6 +245,7 @@ namespace VampireSurvivorsProjekt
         private void TriggerLevelUp()
         {
             isPaused = true;
+            stopwatch.Stop(); // Stopwatch stoppen damit delta time keine probleme macht sonst teleportation bei gegnern/projektilen
             LevelUpMenu.Visibility = Visibility.Visible;
 
             BtnSpeed.Content = $"Laufschuhe (Lvl {speedLevel} -> {speedLevel + 1})";
@@ -278,6 +279,9 @@ namespace VampireSurvivorsProjekt
             // UI schließen und Pause beenden
             LevelUpMenu.Visibility = Visibility.Collapsed;
             isPaused = false;
+
+            stopwatch.Start(); // Stopwatch wieder starten
+            
 
             // Xp Value weitergeben und gebrauchte Xp für lvl up erhöhen
             double currentOverfill = XpBar.Value - XpBar.Maximum;
