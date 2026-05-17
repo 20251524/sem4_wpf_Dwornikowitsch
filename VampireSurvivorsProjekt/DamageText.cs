@@ -34,6 +34,11 @@ namespace VampireSurvivorsProjekt
         {
             lifetime -= deltatime;
             yPos -= 50 * deltatime;
+
+            if (lifetime < 0.2)
+            {
+                visual.Opacity = lifetime / 0.5;
+            }
         }
     }
 }
