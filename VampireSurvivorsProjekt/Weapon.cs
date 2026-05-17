@@ -59,10 +59,10 @@ namespace VampireSurvivorsProjekt
         }
     }
 
-   public class Knife : Weapon
+   public class Shuriken : Weapon
     {
        
-        public Knife() : base(10, 2, 100)
+        public Shuriken() : base(10, 2, 100)
         {
 
         }

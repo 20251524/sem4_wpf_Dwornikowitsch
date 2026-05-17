@@ -42,7 +42,7 @@ namespace VampireSurvivorsProjekt
         public List<Projectile> activeProjectilesList = new List<Projectile>();
         public double deltaTime;
         Fireball activeFireball;
-        Knife activeKnife;
+        Shuriken activeShuriken;
         public List<ExperienceOrb> ExpOrbsList;
         bool isPaused = false;
         public List<DamageText> damageTexts;
@@ -51,6 +51,10 @@ namespace VampireSurvivorsProjekt
         int speedLevel = 1;
         int rangeLevel = 1;
         int fireballLevel = 1;
+        int shurikenLevel = 1;
+
+        //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
+        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken" };
 
 
         public MainWindow()
@@ -63,7 +67,7 @@ namespace VampireSurvivorsProjekt
             player = new Player(200, 200, 150, GameCanvas);
             enemies = new List<Enemy>();
             activeFireball = new Fireball();
-            activeKnife = new Knife();
+            activeShuriken = new Shuriken();
             ExpOrbsList = new List<ExperienceOrb>();
             damageTexts = new List<DamageText>();
             stopwatch.Start();
@@ -163,7 +167,7 @@ namespace VampireSurvivorsProjekt
         {
             // Waffe
             activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
-            activeKnife.UpdateShuriken(deltaTime, player, activeProjectilesList, GameCanvas);
+            activeShuriken.UpdateShuriken(deltaTime, player, activeProjectilesList, GameCanvas);
 
             // Projektile bewegen
             foreach (Projectile proj in activeProjectilesList)
@@ -219,7 +223,7 @@ namespace VampireSurvivorsProjekt
 
                 foreach(Projectile proj in activeProjectilesList)
                 {
-                    double pdx = proj.xPos - enemy.centerX; // +proj.radius damit die distanz vom zentrum aus berechnet wird
+                    double pdx = proj.xPos - enemy.centerX; 
                     double pdy = proj.yPos - enemy.centerY;
 
                     if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
@@ -262,9 +266,60 @@ namespace VampireSurvivorsProjekt
             stopwatch.Stop(); // Stopwatch stoppen damit delta time keine probleme macht sonst teleportation bei gegnern/projektilen
             LevelUpMenu.Visibility = Visibility.Visible;
 
-            BtnSpeed.Content = $"Laufschuhe (Lvl {speedLevel} -> {speedLevel + 1})";
-            BtnRange.Content = $"Magnet (Lvl {rangeLevel} -> {rangeLevel + 1})";
-            BtnFireball.Content = $"Feuerball (Lvl {fireballLevel} -> {fireballLevel + 1})";
+            Random rnd = new Random();
+
+            // Liste als array kopieren weil shuffle nur mit array funktioniert
+            string[] poolArray = upgradePool.ToArray();
+
+            // Array mischen
+            rnd.Shuffle(poolArray);
+
+            // 3 Items nehmen 
+            var randomSelection = poolArray.Take(3).ToList();
+
+            SetupUpgradeButton(BtnChoice1, randomSelection[0]);
+            SetupUpgradeButton(BtnChoice2, randomSelection[1]);
+            SetupUpgradeButton(BtnChoice3, randomSelection[2]);
+        }
+
+        private void SetupUpgradeButton(Button btn, string upgradeType)
+        {
+            btn.Tag = upgradeType; 
+
+            switch (upgradeType)
+            {
+                case "speed":
+                    btn.Content = $"Laufschuhe (Lvl {speedLevel} -> {speedLevel + 1})\nTempo: {player.playerSpeed} -> {player.playerSpeed + 20}";
+                    break;
+
+                case "range":
+                    btn.Content = $"Magnet (Lvl {rangeLevel} -> {rangeLevel + 1})\nRadius: {player.pickupRange} -> {player.pickupRange + 25}";
+                    break;
+
+                case "fireball":
+                    // Text je nach lvl dynamisch anpassen
+                    // Für mehr level mehr if statements hinzufügen
+                    string fireballStatText = "";
+                    if (fireballLevel == 1)
+                    {
+                        fireballStatText = $"Schaden: {activeFireball.damage} -> {activeFireball.damage + 5}";
+                    }
+                    else if (fireballLevel == 2)
+                    {
+                        fireballStatText = $"Angriffstempo: {activeFireball.attacksPerSecond} -> {activeFireball.attacksPerSecond + 0.5}";
+                    }
+                    else
+                    {
+                        fireballStatText = $"Schaden: {activeFireball.damage} -> {activeFireball.damage + 2}";
+                    }
+
+                    btn.Content = $"Feuerball (Lvl {fireballLevel} -> {fireballLevel + 1})\n{fireballStatText}";
+                    break;
+
+                case "shuriken":
+                    btn.Content = $"Shuriken (Lvl {shurikenLevel} -> {shurikenLevel + 1})\nSchaden: {activeShuriken.damage} -> {activeShuriken.damage + 3}";
+                    break;
+            }
         }
 
         private void HandleUpgrade(object sender, RoutedEventArgs e)
