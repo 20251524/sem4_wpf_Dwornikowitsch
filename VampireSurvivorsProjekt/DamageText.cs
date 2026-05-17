@@ -17,8 +17,10 @@ namespace VampireSurvivorsProjekt
 
         public DamageText(double xPos, double yPos, double damage, Canvas GameCanvas)
         {
-            this.xPos = xPos;
-            this.yPos = yPos; 
+
+            Random rnd = new Random();
+            this.xPos = xPos + rnd.Next(-15, 15);
+            this.yPos = yPos + rnd.Next(-15, 15);
 
             // TextBlock erstellen und stylen
             visual = new TextBlock();
