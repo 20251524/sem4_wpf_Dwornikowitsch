@@ -45,6 +45,7 @@ namespace VampireSurvivorsProjekt
         Knife activeKnife;
         public List<ExperienceOrb> ExpOrbsList;
         bool isPaused = false;
+        public List<DamageText> damageTexts;
 
         //Upgrade Level variablen
         int speedLevel = 1;
@@ -64,6 +65,7 @@ namespace VampireSurvivorsProjekt
             activeFireball = new Fireball();
             activeKnife = new Knife();
             ExpOrbsList = new List<ExperienceOrb>();
+            damageTexts = new List<DamageText>();
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
@@ -149,6 +151,12 @@ namespace VampireSurvivorsProjekt
                 Canvas.SetLeft(orb.visual, orb.orbXPos - cameraX - orb.radius);
                 Canvas.SetTop(orb.visual , orb.orbYPos - cameraY - orb.radius);
             }
+
+            foreach(DamageText dt in damageTexts)
+            {
+                Canvas.SetLeft(dt.visual, dt.xPos - cameraX);
+                Canvas.SetTop(dt.visual , dt.yPos - cameraY);
+            }
         }
 
         private void UpdateGameObjects()
@@ -212,6 +220,7 @@ namespace VampireSurvivorsProjekt
                     if ((pdx * pdx + pdy * pdy) < (enemy.radius * enemy.radius))
                     {
                         enemy.health -= proj.damage;
+                        damageTexts.Add(new DamageText(enemy.centerX, enemy.centerY, proj.damage, GameCanvas));
                         if (enemy.health <= 0)
                         {
                             enemy.isdead = true;
