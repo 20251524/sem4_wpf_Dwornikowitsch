@@ -13,6 +13,7 @@ namespace VampireSurvivorsProjekt
         public TextBlock visual;
         public double xPos;
         public double yPos;
+        public double lifetime = 1;
 
         public DamageText(double xPos, double yPos, double damage, Canvas GameCanvas)
         {
@@ -27,6 +28,12 @@ namespace VampireSurvivorsProjekt
             visual.Foreground = Brushes.Yellow;
 
             GameCanvas.Children.Add(visual);
+        }
+
+        public void Update(double deltatime)
+        {
+            lifetime -= deltatime;
+            yPos -= 50 * deltatime;
         }
     }
 }

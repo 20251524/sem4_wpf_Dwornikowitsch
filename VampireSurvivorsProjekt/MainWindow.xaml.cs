@@ -193,6 +193,11 @@ namespace VampireSurvivorsProjekt
                 enemy.Update(player.playerXPos, player.playerYPos, deltaTime);
                 enemy.getCenter();
             }
+
+            foreach(DamageText dt in damageTexts)
+            {
+                dt.Update(deltaTime);
+            }
         }
 
         private void CollisionHandling()
@@ -336,6 +341,15 @@ namespace VampireSurvivorsProjekt
                     ExpOrbsList.RemoveAt(i);
                 }
 
+            }
+
+            for(int i = damageTexts.Count -1; i >= 0; i--)
+            {
+                if (damageTexts[i].lifetime <= 0)
+                {
+                    GameCanvas.Children.Remove (damageTexts[i].visual);
+                    damageTexts.RemoveAt(i);
+                }
             }
 
         }
