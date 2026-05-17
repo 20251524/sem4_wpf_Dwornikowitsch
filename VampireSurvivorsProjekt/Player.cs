@@ -26,6 +26,8 @@ namespace VampireSurvivorsProjekt
         public Rectangle playerhitboxdebug;
         public double pickupRange = 100;
         public Ellipse pickupRangeDebug;
+        public double lastXDirection = 1;
+        public double lastYDirection = 0;
         
 
         public Player(double playerXpos, double playerYPos, double playerSpeed, Canvas GameCanvas)
@@ -98,6 +100,9 @@ namespace VampireSurvivorsProjekt
             {
                 xDirection = xDirection / length;
                 yDirection = yDirection / length;
+
+                lastXDirection = xDirection;
+                lastYDirection = yDirection;
             }
 
             // Position aktualisieren

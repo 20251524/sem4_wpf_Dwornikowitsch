@@ -74,8 +74,8 @@ namespace VampireSurvivorsProjekt
             if(cooldownTimer >= 1 /  attacksPerSecond)
             {
                 Shape shurikenVisual = new Ellipse { Width = 10, Height = 10, Fill = Brushes.Silver };
-                double targetX = player.playerXPos + (player.playerchar.Width / 2) + (player.xDirection );
-                double targetY = player.playerYPos + (player.playerchar.Height / 2) + (player.yDirection );
+                double targetX = player.playerXPos + (player.playerchar.Width / 2) + (player.lastXDirection);
+                double targetY = player.playerYPos + (player.playerchar.Height / 2) + (player.lastYDirection );
 
                 projectileList.Add(new Projectile(
                 player.playerXPos + (player.playerchar.Width / 2), // Start in der Mitte des playerchar
