@@ -317,7 +317,16 @@ namespace VampireSurvivorsProjekt
                     break;
 
                 case "shuriken":
-                    btn.Content = $"Shuriken (Lvl {shurikenLevel} -> {shurikenLevel + 1})\nSchaden: {activeShuriken.damage} -> {activeShuriken.damage + 3}";
+                    string shurikenStatText = "";
+                    if(shurikenLevel == 1)
+                    { 
+                        shurikenStatText = $"Angriffstempo: {activeShuriken.attacksPerSecond} -> {activeShuriken.attacksPerSecond + 0.5}"; 
+                    }
+                    else if(shurikenLevel == 2)
+                    {
+                        shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 5}";
+                    }
+                        btn.Content = $"Shuriken (Lvl {shurikenLevel} -> {shurikenLevel + 1})\n{shurikenStatText}";
                     break;
             }
         }
@@ -333,6 +342,7 @@ namespace VampireSurvivorsProjekt
                     player.playerSpeed += 20; 
                     speedLevel++;
                     break;
+
                 case "range":
                     player.pickupRange += 25;
                     // Neu berechnen damit es nach lvlup nicht verbuggt ist
@@ -343,12 +353,34 @@ namespace VampireSurvivorsProjekt
                     Canvas.SetTop(player.pickupRangeDebug, (player.playerYPos + player.playerchar.Height / 2) - cameraY - player.pickupRange);
                     rangeLevel++;
                     break;
+
                 case "fireball":
                     fireballLevel++;
-                    if (fireballLevel == 2) activeFireball.damage += 5;
-                    else if (fireballLevel == 3) activeFireball.attacksPerSecond += 0.5;
-                    else activeFireball.damage += 2;
+                    if (fireballLevel == 2)
+                    {
+                        activeFireball.damage += 5;
+                    }
+                    else if (fireballLevel == 3)
+                    {
+                        activeFireball.attacksPerSecond += 0.5;
+                    }
+                    else
+                    {
+                        activeFireball.damage += 2;
+                    }
                     break;
+
+                case "shuriken":
+                    shurikenLevel++;
+                    if(shurikenLevel == 2)
+                    {
+                        activeShuriken.attacksPerSecond += 0.5;
+                    }
+                    else if(shurikenLevel == 3)
+                    {
+                        activeShuriken.damage += 5;
+                    }
+                        break;
             }
 
             // UI schließen und Pause beenden

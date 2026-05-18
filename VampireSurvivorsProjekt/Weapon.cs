@@ -62,7 +62,7 @@ namespace VampireSurvivorsProjekt
    public class Shuriken : Weapon
     {
        
-        public Shuriken() : base(10, 2, 100)
+        public Shuriken() : base(10, 1, 100)
         {
 
         }
