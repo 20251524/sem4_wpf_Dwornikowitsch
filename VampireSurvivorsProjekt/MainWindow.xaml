@@ -22,7 +22,7 @@
                     <TextBlock Text="Spielername:" Foreground="White" Margin="0,0,0,5" FontSize="14"/>
                     <TextBox Name="TxtPlayerName" Text="Spieler 1" Padding="8" Margin="0,0,0,20" FontSize="14" Background="#555" Foreground="White" BorderBrush="Gray"/>
 
-                    <Button Content="SPIEL STARTEN"  Padding="15" Background="Gold" Foreground="Black" FontWeight="Bold" FontSize="16"/>
+                    <Button Content="SPIEL STARTEN"  Padding="15" Click="StartGame_Click" Background="Gold" Foreground="Black" FontWeight="Bold" FontSize="16"/>
                 </StackPanel>
             </Border>
         </Grid>

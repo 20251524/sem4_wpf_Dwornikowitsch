@@ -47,6 +47,12 @@ namespace VampireSurvivorsProjekt
         bool isPaused = false;
         public List<DamageText> damageTexts;
 
+        string playerName = "Spieler 1";
+        int totalKills = 0;
+        double survivedTime = 0; // Misst die überlebten Sekunden im Spiel
+
+        bool gameStarted = false;
+
         //Upgrade Level variablen
         int speedLevel = 1;
         int rangeLevel = 1;
@@ -258,6 +264,20 @@ namespace VampireSurvivorsProjekt
                     }
                 }
             }
+        }
+
+        private void StartGame_Click(object sender, RoutedEventArgs e)
+        {
+            // Namen für später speichern
+            if (!string.IsNullOrWhiteSpace(TxtPlayerName.Text))
+            {
+                playerName = TxtPlayerName.Text;
+            }
+
+            StartScreen.Visibility = Visibility.Collapsed;
+            gameStarted = true;
+            isPaused = false;
+            stopwatch.Start();
         }
 
         private void TriggerLevelUp()
