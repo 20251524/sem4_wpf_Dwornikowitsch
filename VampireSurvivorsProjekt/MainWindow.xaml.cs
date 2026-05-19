@@ -44,8 +44,10 @@ namespace VampireSurvivorsProjekt
         Fireball activeFireball;
         Shuriken activeShuriken;
         public List<ExperienceOrb> ExpOrbsList;
-        bool isPaused = false;
+        bool isPaused = true;
         public List<DamageText> damageTexts;
+        double damageCooldown = 0; 
+        double damageCooldownMax = 0.5; // Spieler kann nur alle 0.5 Sekunden Schaden bekommen
 
         string playerName = "Spieler 1";
         int totalKills = 0;
@@ -94,6 +96,16 @@ namespace VampireSurvivorsProjekt
             }
             //Zeit Berechnung
             UpdateDeltaTime();
+
+            if (!isPaused && gameStarted)
+            {
+                survivedTime += deltaTime; // Zählt die echten Sekunden hoch
+            }
+
+            if (damageCooldown > 0)
+            {
+                damageCooldown -= deltaTime; // Timer runterzählen
+            }
 
             //Gegner spawnuing
             SpawnHandling();
@@ -223,8 +235,18 @@ namespace VampireSurvivorsProjekt
                 //Debug.WriteLine(closestY);
                 if (distance <= enemy.radius)
                 {
-                    Debug.WriteLine("Collision!");
-                    enemy.isdead = true;
+                    if (damageCooldown <= 0)
+                    {
+                        player.currentHp -= 10;
+                        HpBar.Value = player.currentHp; 
+                        damageCooldown = damageCooldownMax; 
+
+                        if (player.currentHp <= 0)
+                        {
+                            TriggerGameOver();
+                            return; // Schleife und Methode sofort abbrechen
+                        }
+                    }
                 }
 
                 foreach(Projectile proj in activeProjectilesList)
@@ -239,6 +261,7 @@ namespace VampireSurvivorsProjekt
                         if (enemy.health <= 0)
                         {
                             enemy.isdead = true;
+                            totalKills++;
                         }
                         proj.toRemove = true;
                     }
@@ -274,6 +297,10 @@ namespace VampireSurvivorsProjekt
                 playerName = TxtPlayerName.Text;
             }
 
+            player.currentHp = player.maxHp; // Volles Leben garantieren
+            HpBar.Maximum = player.maxHp;
+            HpBar.Value = player.currentHp;
+
             StartScreen.Visibility = Visibility.Collapsed;
             gameStarted = true;
             isPaused = false;
@@ -288,7 +315,7 @@ namespace VampireSurvivorsProjekt
 
             // Zeit formatieren (Minuten:Sekunden)
             TimeSpan t = TimeSpan.FromSeconds(survivedTime);
-            TxtStatsTime.Text = $"Überlebte Zeit: {t.Minutes:D2}:{t.Seconds:D2}";
+            TxtStatsTime.Text = $"Überlebte Zeit: {t.Minutes:D2}:{t.Seconds:D2}"; //D2 = decimal with 2 digits. füllt die Zahl mit führenden nullen auf, falls sie einstellig ist
             TxtStatsKills.Text = $"Besiegte Gegner: {totalKills}";
 
             GameOverScreen.Visibility = Visibility.Visible;

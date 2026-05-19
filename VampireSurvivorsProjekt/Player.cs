@@ -28,7 +28,9 @@ namespace VampireSurvivorsProjekt
         public Ellipse pickupRangeDebug;
         public double lastXDirection = 1;
         public double lastYDirection = 0;
-        
+        public double maxHp = 100;
+        public double currentHp = 100;
+
 
         public Player(double playerXpos, double playerYPos, double playerSpeed, Canvas GameCanvas)
         {
