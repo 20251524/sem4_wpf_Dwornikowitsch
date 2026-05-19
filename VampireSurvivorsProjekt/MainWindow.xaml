@@ -35,6 +35,20 @@
             <ProgressBar x:Name="HpBar" Width="200" Height="15" Background="#330000" Foreground="Red" Minimum="0"/>
         </StackPanel>
 
+        <TextBlock Name="TxtInGameTimer" 
+           Text="00:00" 
+           FontSize="28" 
+           Foreground="White" 
+           FontWeight="Bold"
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Top" 
+           Margin="0,35,0,0">
+
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="3" Color="Black" Direction="315" ShadowDepth="2"/>
+            </TextBlock.Effect>
+        </TextBlock>
+
         <Grid Name="StartScreen" Visibility="Visible" Background="#222222">
             <Border Background="#333333" CornerRadius="10" Padding="40" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gold" BorderThickness="2">
                 <StackPanel Width="300">

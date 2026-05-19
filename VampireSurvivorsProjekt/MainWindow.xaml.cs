@@ -100,6 +100,8 @@ namespace VampireSurvivorsProjekt
             if (!isPaused && gameStarted)
             {
                 survivedTime += deltaTime; // Zählt die echten Sekunden hoch
+                TimeSpan t = TimeSpan.FromSeconds(survivedTime);
+                TxtInGameTimer.Text = $"{t.Minutes:D2}:{t.Seconds:D2}";
             }
 
             if (damageCooldown > 0)
@@ -304,7 +306,9 @@ namespace VampireSurvivorsProjekt
             StartScreen.Visibility = Visibility.Collapsed;
             gameStarted = true;
             isPaused = false;
-            stopwatch.Start();
+            stopwatch.Restart(); // stopwatch neustarten
+            lastTime = stopwatch.Elapsed.TotalSeconds;
+
         }
 
         public void TriggerGameOver()
