@@ -15,6 +15,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Data.SQLite;
 
 namespace VampireSurvivorsProjekt
 {
@@ -64,6 +65,9 @@ namespace VampireSurvivorsProjekt
         //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
         List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken" };
 
+        // Erstellt die datei vs_stats.db 
+        string dbPath = "Data Source=vs_stats.db";
+
 
         public MainWindow()
         {
@@ -81,7 +85,7 @@ namespace VampireSurvivorsProjekt
             stopwatch.Start();
             lastTime = stopwatch.Elapsed.TotalSeconds;
             CompositionTarget.Rendering += GameLoop;
-
+            InitializeDatabase();
 
         }
 
@@ -675,6 +679,29 @@ namespace VampireSurvivorsProjekt
                 GameCanvas.Children.Remove(player.playerhitboxdebug);
                 GameCanvas.Children.Remove(player.pickupRangeDebug);
                 debugmode = false;
+            }
+        }
+
+        private void InitializeDatabase()
+        {
+            using (var connection = new SQLiteConnection(dbPath))
+            {
+                connection.Open();
+
+                // Tabelle erstellen
+                // REAL ist wie Datentyp double
+                string createTableQuery = @"
+                CREATE TABLE IF NOT EXISTS Highscores (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                PlayerName TEXT,
+                SurvivedTime REAL,
+                Kills INTEGER
+            );";
+
+                using (var command = new SQLiteCommand(createTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
