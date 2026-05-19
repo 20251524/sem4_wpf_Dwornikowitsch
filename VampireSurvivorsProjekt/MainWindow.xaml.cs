@@ -322,6 +322,38 @@ namespace VampireSurvivorsProjekt
 
         }
 
+        private void RestartGame_Click(object sender, RoutedEventArgs e)
+        {
+            GameOverScreen.Visibility = Visibility.Collapsed;
+
+            // stats zurücksetzen
+            totalKills = 0;
+            survivedTime = 0;
+
+            // lvl zurücksetzen
+            speedLevel = 1;
+            rangeLevel = 1;
+            fireballLevel = 1;
+
+            // alles vom screen löschen
+            GameCanvas.Children.Clear();
+            activeProjectilesList.Clear();
+            enemies.Clear();
+            ExpOrbsList.Clear();
+            damageTexts.Clear();
+
+            // Spieler zurücksetzen auf die standardeinstellungen
+            player.playerXPos = 100;
+            player.playerYPos = 100; 
+            player.playerSpeed = 150; 
+            player.pickupRange = 100;  
+            GameCanvas.Children.Add(player.playerchar);
+            gameStarted = true;
+            isPaused = false;
+            lastTime = stopwatch.Elapsed.TotalSeconds;
+            stopwatch.Start();
+        }
+
         private void TriggerLevelUp()
         {
             isPaused = true;

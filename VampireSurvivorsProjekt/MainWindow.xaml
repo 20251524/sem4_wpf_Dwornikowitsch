@@ -52,6 +52,7 @@
                     <TextBlock Text="GAME OVER" FontSize="42" Foreground="Red" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold"/>
                     <TextBlock Name="TxtStatsTime" Text="Überlebte Zeit: 00:00" Foreground="White" HorizontalAlignment="Center" Margin="0,5" FontSize="16"/>
                     <TextBlock Name="TxtStatsKills" Text="Besiegte Gegner: 0" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,30" FontSize="16"/>
+                    <Button Content="NOCHMALS SPIELEN" Click="RestartGame_Click" Padding="15" Background="#333" Foreground="White" FontSize="16"/>
                 </StackPanel>
             </Border>
         </Grid>
