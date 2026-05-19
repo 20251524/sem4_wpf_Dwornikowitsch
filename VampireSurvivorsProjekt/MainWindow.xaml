@@ -18,11 +18,19 @@
             <Border Background="#333333" CornerRadius="10" Padding="40" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gold" BorderThickness="2">
                 <StackPanel Width="300">
                     <TextBlock Text="SURVIVORS" FontSize="36" Foreground="Gold" HorizontalAlignment="Center" Margin="0,0,0,30" FontWeight="Bold"/>
-
                     <TextBlock Text="Spielername:" Foreground="White" Margin="0,0,0,5" FontSize="14"/>
                     <TextBox Name="TxtPlayerName" Text="Spieler 1" Padding="8" Margin="0,0,0,20" FontSize="14" Background="#555" Foreground="White" BorderBrush="Gray"/>
-
                     <Button Content="SPIEL STARTEN"  Padding="15" Click="StartGame_Click" Background="Gold" Foreground="Black" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="GameOverScreen" Visibility="Collapsed" Background="#AA000000">
+            <Border Background="#111111" CornerRadius="10" Padding="40" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Red" BorderThickness="2">
+                <StackPanel Width="300">
+                    <TextBlock Text="GAME OVER" FontSize="42" Foreground="Red" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold"/>
+                    <TextBlock x:Name="TxtStatsTime" Text="Überlebte Zeit: 00:00" Foreground="White" HorizontalAlignment="Center" Margin="0,5" FontSize="16"/>
+                    <TextBlock x:Name="TxtStatsKills" Text="Besiegte Gegner: 0" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,30" FontSize="16"/>
                 </StackPanel>
             </Border>
         </Grid>

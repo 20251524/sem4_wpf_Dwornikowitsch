@@ -280,6 +280,21 @@ namespace VampireSurvivorsProjekt
             stopwatch.Start();
         }
 
+        public void TriggerGameOver()
+        {
+            isPaused = true;
+            gameStarted = false;
+            stopwatch.Stop();
+
+            // Zeit formatieren (Minuten:Sekunden)
+            TimeSpan t = TimeSpan.FromSeconds(survivedTime);
+            TxtStatsTime.Text = $"Überlebte Zeit: {t.Minutes:D2}:{t.Seconds:D2}";
+            TxtStatsKills.Text = $"Besiegte Gegner: {totalKills}";
+
+            GameOverScreen.Visibility = Visibility.Visible;
+
+        }
+
         private void TriggerLevelUp()
         {
             isPaused = true;
