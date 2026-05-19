@@ -333,11 +333,16 @@ namespace VampireSurvivorsProjekt
             // stats zurücksetzen
             totalKills = 0;
             survivedTime = 0;
+            XpBar.Maximum = 10;
+            XpBar.Value = 0;
 
             // lvl zurücksetzen
             speedLevel = 1;
             rangeLevel = 1;
             fireballLevel = 1;
+
+            activeFireball = new Fireball();
+            activeShuriken = new Shuriken();
 
             // alles vom screen löschen
             GameCanvas.Children.Clear();
@@ -356,6 +361,41 @@ namespace VampireSurvivorsProjekt
             isPaused = false;
             lastTime = stopwatch.Elapsed.TotalSeconds;
             stopwatch.Start();
+        }
+
+        private void BackToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            GameOverScreen.Visibility = Visibility.Collapsed;
+            StartScreen.Visibility = Visibility.Visible;
+
+            totalKills = 0;
+            survivedTime = 0;
+            XpBar.Maximum = 10;
+            XpBar.Value = 0;
+            TxtInGameTimer.Text = "00:00";
+
+            speedLevel = 1;
+            rangeLevel = 1;
+            fireballLevel = 1;
+
+            activeFireball = new Fireball();
+            activeShuriken = new Shuriken();
+
+            GameCanvas.Children.Clear();
+            activeProjectilesList.Clear();
+            enemies.Clear();
+            damageTexts.Clear();
+
+            GameCanvas.Children.Add(player.playerchar);
+            player.maxHp = 100;
+            player.currentHp = player.maxHp;
+            HpBar.Maximum = player.maxHp;
+            HpBar.Value = player.currentHp;
+            damageCooldown = 0;
+
+            gameStarted = false;
+            isPaused = true;
+            stopwatch.Reset();
         }
 
         private void TriggerLevelUp()
