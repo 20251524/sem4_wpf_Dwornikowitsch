@@ -60,7 +60,7 @@ namespace VampireSurvivorsProjekt
         int speedLevel = 1;
         int rangeLevel = 1;
         int fireballLevel = 1;
-        int shurikenLevel = 1;
+        int shurikenLevel = 0;
 
         //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
         List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken" };
@@ -79,7 +79,7 @@ namespace VampireSurvivorsProjekt
             player = new Player(200, 200, 150, GameCanvas);
             enemies = new List<Enemy>();
             activeFireball = new Fireball();
-            activeShuriken = new Shuriken();
+            activeShuriken = null;
             ExpOrbsList = new List<ExperienceOrb>();
             damageTexts = new List<DamageText>();
             stopwatch.Start();
@@ -190,9 +190,15 @@ namespace VampireSurvivorsProjekt
         private void UpdateGameObjects()
         {
             // Waffe
-            activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
-            activeShuriken.UpdateShuriken(deltaTime, player, activeProjectilesList, GameCanvas);
+            if(activeFireball != null)
+            {
+                activeFireball.UpdateFireball(deltaTime, enemies, player, activeProjectilesList, GameCanvas);
+            }
+            if(activeShuriken != null)
+            {
 
+                activeShuriken.UpdateShuriken(deltaTime, player, activeProjectilesList, GameCanvas);
+            }
             // Projektile bewegen
             foreach (Projectile proj in activeProjectilesList)
             {
@@ -358,10 +364,10 @@ namespace VampireSurvivorsProjekt
             // lvl zurücksetzen
             speedLevel = 1;
             rangeLevel = 1;
-            fireballLevel = 1;
+            fireballLevel = 0;
 
             activeFireball = new Fireball();
-            activeShuriken = new Shuriken();
+            activeShuriken = null;
 
             // alles vom screen löschen
             GameCanvas.Children.Clear();
@@ -475,7 +481,8 @@ namespace VampireSurvivorsProjekt
 
                 case "shuriken":
                     string shurikenStatText = "";
-                    if(shurikenLevel == 1)
+
+                    if (shurikenLevel == 1)
                     { 
                         shurikenStatText = $"Angriffstempo: {activeShuriken.attacksPerSecond} -> {activeShuriken.attacksPerSecond + 0.5}"; 
                     }
@@ -483,7 +490,14 @@ namespace VampireSurvivorsProjekt
                     {
                         shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 5}";
                     }
+                    if (shurikenLevel == 0)
+                    {
+                        btn.Content = "Shuriken freischalten!\nWirft ein Shuriken in Laufrichtung";
+                    }
+                    else
+                    {
                         btn.Content = $"Shuriken (Lvl {shurikenLevel} -> {shurikenLevel + 1})\n{shurikenStatText}";
+                    }
                     break;
             }
         }
@@ -529,7 +543,13 @@ namespace VampireSurvivorsProjekt
 
                 case "shuriken":
                     shurikenLevel++;
-                    if(shurikenLevel == 2)
+                    if (shurikenLevel == 1)
+                    {
+                        // Waffe wird zum ersten Mal erschaffen!
+                        activeShuriken = new Shuriken();
+                        shurikenLevel = 1;
+                    }
+                    if (shurikenLevel == 2)
                     {
                         activeShuriken.attacksPerSecond += 0.5;
                     }
