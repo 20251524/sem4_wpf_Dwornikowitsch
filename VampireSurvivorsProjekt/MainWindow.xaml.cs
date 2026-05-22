@@ -564,11 +564,23 @@ namespace VampireSurvivorsProjekt
                     {
                         btn.Content = "Knoblauch freischalten!\nErzeugt eine schützende Schadens-Aura um dich.";
                     }
+                    else if(garlicLevel == 1)
+                    {
+                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nRadius +15";
+                    }
+                    else if(garlicLevel == 2)
+                    {
+                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nDamage +1";
+                    }
+                    else if(garlicLevel == 3)
+                    {
+                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nRadius +15";
+                    }
                     else
                     {
-                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nRadius +15, Schaden +1";
+                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nDamage +1";
                     }
-                    break;
+                        break;
             }
         }
 
@@ -638,6 +650,18 @@ namespace VampireSurvivorsProjekt
                     else if(garlicLevel == 2)
                     {
                         activeGarlic.range += 15;
+                    }
+                    else if(garlicLevel == 3)
+                    {
+                        activeGarlic.damage += 1;
+                    }
+                    else if(garlicLevel == 4)
+                    {
+                        activeGarlic.range += 15;
+                    }
+                    else
+                    {
+                        activeGarlic.damage += 1;
                     }
                         break;
             }
