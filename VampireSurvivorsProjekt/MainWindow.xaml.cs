@@ -65,7 +65,7 @@ namespace VampireSurvivorsProjekt
         int garlicLevel = 0;
 
         //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
-        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken" };
+        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken", "garlic" };
 
         // Erstellt die datei vs_stats.db 
         string dbPath = "Data Source=vs_stats.db";
@@ -82,7 +82,7 @@ namespace VampireSurvivorsProjekt
             enemies = new List<Enemy>();
             activeFireball = new Fireball();
             activeShuriken = null;
-            activeGarlic = new Garlic();
+            activeGarlic = null;
             ExpOrbsList = new List<ExperienceOrb>();
             damageTexts = new List<DamageText>();
             stopwatch.Start();
@@ -413,6 +413,7 @@ namespace VampireSurvivorsProjekt
 
             activeFireball = new Fireball();
             activeShuriken = null;
+            activeGarlic = null;
 
             // alles vom screen löschen
             GameCanvas.Children.Clear();
@@ -420,6 +421,10 @@ namespace VampireSurvivorsProjekt
             enemies.Clear();
             ExpOrbsList.Clear();
             damageTexts.Clear();
+            if (activeGarlic != null)
+            {
+                GameCanvas.Children.Remove(activeGarlic.auraVisual);
+            }
 
             // Spieler zurücksetzen auf die standardeinstellungen
             player.playerXPos = 100;
@@ -447,14 +452,21 @@ namespace VampireSurvivorsProjekt
             speedLevel = 1;
             rangeLevel = 1;
             fireballLevel = 1;
+            garlicLevel = 0;
+            shurikenLevel = 0;
 
             activeFireball = new Fireball();
-            activeShuriken = new Shuriken();
+            activeShuriken = null;
+            activeGarlic = null;
 
             GameCanvas.Children.Clear();
             activeProjectilesList.Clear();
             enemies.Clear();
             damageTexts.Clear();
+            if (activeGarlic != null)
+            {
+                GameCanvas.Children.Remove(activeGarlic.auraVisual);
+            }
 
             GameCanvas.Children.Add(player.playerchar);
             player.maxHp = 100;
@@ -544,6 +556,19 @@ namespace VampireSurvivorsProjekt
                         btn.Content = $"Shuriken (Lvl {shurikenLevel} -> {shurikenLevel + 1})\n{shurikenStatText}";
                     }
                     break;
+
+                case "garlic":
+                    string garlicStatText = "";
+
+                    if (garlicLevel == 0)
+                    {
+                        btn.Content = "Knoblauch freischalten!\nErzeugt eine schützende Schadens-Aura um dich.";
+                    }
+                    else
+                    {
+                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nRadius +15, Schaden +1";
+                    }
+                    break;
             }
         }
 
@@ -555,7 +580,7 @@ namespace VampireSurvivorsProjekt
             switch (upgradeType)
             {
                 case "speed":
-                    player.playerSpeed += 20; 
+                    player.playerSpeed += 20;
                     speedLevel++;
                     break;
 
@@ -598,9 +623,21 @@ namespace VampireSurvivorsProjekt
                     {
                         activeShuriken.attacksPerSecond += 0.5;
                     }
-                    else if(shurikenLevel == 3)
+                    else if (shurikenLevel == 3)
                     {
                         activeShuriken.damage += 5;
+                    }
+                    break;
+
+                case "garlic":
+                    garlicLevel++;
+                    if (garlicLevel == 1)
+                    {
+                        activeGarlic = new Garlic();
+                    }
+                    else if(garlicLevel == 2)
+                    {
+                        activeGarlic.range += 15;
                     }
                         break;
             }
