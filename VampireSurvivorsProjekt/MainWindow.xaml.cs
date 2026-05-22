@@ -328,6 +328,21 @@ namespace VampireSurvivorsProjekt
 
             GameOverScreen.Visibility = Visibility.Visible;
 
+            using (var connection = new SQLiteConnection(dbPath))
+            {
+                connection.Open();
+                string insertQuery = "INSERT INTO Highscores (PlayerName, SurvivedTime, Kills) VALUES (@name, @time, @kills);";
+
+                //Stats hinzufügen
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@name", playerName);
+                    command.Parameters.AddWithValue("@time", survivedTime);
+                    command.Parameters.AddWithValue("@kills", totalKills);
+                    command.ExecuteNonQuery();
+                }
+            }
+
         }
 
         private void RestartGame_Click(object sender, RoutedEventArgs e)
@@ -709,6 +724,35 @@ namespace VampireSurvivorsProjekt
         {
             StartScreen.Visibility = Visibility.Collapsed;
             HighscoreScreen.Visibility = Visibility.Visible;
+
+            TxtHighscoreList.Text = string.Format("{0,-15} | {1,-10} | {2,-6}\n", "NAME", "ZEIT", "KILLS");
+            TxtHighscoreList.Text += "----------------------------------------\n";
+
+            using (var connection = new SQLiteConnection(dbPath))
+            {
+                connection.Open();
+                // Holt die besten 5 Einträge, sortiert nach überlebter Zeit
+                string selectQuery = "SELECT PlayerName, SurvivedTime, Kills FROM Highscores ORDER BY SurvivedTime DESC LIMIT 5;";
+
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string name = reader.GetString(0);
+                            double timeInSec = reader.GetDouble(1);
+                            int kills = reader.GetInt32(2);
+
+                            TimeSpan t = TimeSpan.FromSeconds(timeInSec);
+                            string formattedTime = $"{t.Minutes:D2}:{t.Seconds:D2}";
+
+                            // Formatiert den Text in saubere Spalten 
+                            TxtHighscoreList.Text += string.Format("{0,-15} | {1,-10} | {2,-6}\n", name, formattedTime, kills);
+                        }
+                    }
+                }
+            }
         }
 
         private void CloseHighscores_Click(object sender, RoutedEventArgs e)
