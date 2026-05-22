@@ -56,6 +56,7 @@
                     <TextBlock Text="Spielername:" Foreground="White" Margin="0,0,0,5" FontSize="14"/>
                     <TextBox Name="TxtPlayerName" Text="Spieler 1" Padding="8" Margin="0,0,0,20" FontSize="14" Background="#555" Foreground="White" BorderBrush="Gray"/>
                     <Button Content="SPIEL STARTEN"  Padding="15" Click="StartGame_Click" Background="Gold" Foreground="Black" FontWeight="Bold" FontSize="16"/>
+                    <Button Content="HIGHCORES ANZEIGEN" Click="OpenHighscores_Click" Padding="10" Background="#444" Foreground="White" FontSize="14"/>
                 </StackPanel>
             </Border>
         </Grid>
@@ -71,6 +72,18 @@
                 </StackPanel>
             </Border>
         </Grid>
+        
+        <Grid Name="HighscoreScreen" Visibility="Collapsed" Background="#222222">
+        <Border Background="#333333" CornerRadius="10" Padding="40" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gold" BorderThickness="2">
+            <StackPanel Width="400">
+                <TextBlock Text="BESTENLISTE" FontSize="32" Foreground="Gold" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold"/>
+                
+                <TextBlock Name="TxtHighscoreList" Text="Lade Daten..." Foreground="White" FontSize="14" FontFamily="Consolas" Margin="0,0,0,20"/>
+                
+                <Button Content="ZURÜCK" Click="CloseHighscores_Click" Padding="10" Background="#444" Foreground="White" FontSize="14"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 
 
 

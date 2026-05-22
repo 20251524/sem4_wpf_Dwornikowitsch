@@ -705,6 +705,18 @@ namespace VampireSurvivorsProjekt
             }
         }
 
+        private void OpenHighscores_Click(object sender, RoutedEventArgs e)
+        {
+            StartScreen.Visibility = Visibility.Collapsed;
+            HighscoreScreen.Visibility = Visibility.Visible;
+        }
+
+        private void CloseHighscores_Click(object sender, RoutedEventArgs e)
+        {
+            HighscoreScreen.Visibility = Visibility.Collapsed;
+            StartScreen.Visibility = Visibility.Visible;
+        }
+
 
 
         private void Form_KeyDown(object sender, KeyEventArgs e)
