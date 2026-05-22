@@ -44,6 +44,7 @@ namespace VampireSurvivorsProjekt
         public double deltaTime;
         Fireball activeFireball;
         Shuriken activeShuriken;
+        Garlic activeGarlic;
         public List<ExperienceOrb> ExpOrbsList;
         bool isPaused = true;
         public List<DamageText> damageTexts;
@@ -61,6 +62,7 @@ namespace VampireSurvivorsProjekt
         int rangeLevel = 1;
         int fireballLevel = 1;
         int shurikenLevel = 0;
+        int garlicLevel = 0;
 
         //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
         List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken" };
@@ -80,6 +82,7 @@ namespace VampireSurvivorsProjekt
             enemies = new List<Enemy>();
             activeFireball = new Fireball();
             activeShuriken = null;
+            activeGarlic = new Garlic();
             ExpOrbsList = new List<ExperienceOrb>();
             damageTexts = new List<DamageText>();
             stopwatch.Start();
@@ -185,6 +188,24 @@ namespace VampireSurvivorsProjekt
                 Canvas.SetLeft(dt.visual, dt.xPos - cameraX);
                 Canvas.SetTop(dt.visual , dt.yPos - cameraY);
             }
+
+            if (activeGarlic != null)
+            {
+                if (GameCanvas.Children.Contains(activeGarlic.auraVisual) == false)
+                {
+                    GameCanvas.Children.Add(activeGarlic.auraVisual);
+                }
+
+                // falls der radius geändert wurde werte updaten sonst buggy
+                activeGarlic.auraVisual.Width = activeGarlic.range * 2;
+                activeGarlic.auraVisual.Height = activeGarlic.range * 2;
+
+                double playerCenterX = player.playerXPos + (player.playerchar.Width / 2);
+                double playerCenterY = player.playerYPos + (player.playerchar.Height / 2);
+
+                Canvas.SetLeft(activeGarlic.auraVisual, playerCenterX - cameraX - activeGarlic.range);
+                Canvas.SetTop(activeGarlic.auraVisual, playerCenterY - cameraY - activeGarlic.range);
+            }
         }
 
         private void UpdateGameObjects()
@@ -199,6 +220,12 @@ namespace VampireSurvivorsProjekt
 
                 activeShuriken.UpdateShuriken(deltaTime, player, activeProjectilesList, GameCanvas);
             }
+
+            if (activeGarlic != null)
+            {
+                activeGarlic.UpdateGarlic(deltaTime);
+            }
+
             // Projektile bewegen
             foreach (Projectile proj in activeProjectilesList)
             {
@@ -236,6 +263,9 @@ namespace VampireSurvivorsProjekt
 
         private void CollisionHandling()
         {
+            double playerCenterX = player.playerXPos + (player.playerchar.Width / 2);
+            double playerCenterY = player.playerYPos + (player.playerchar.Height / 2);
+
             foreach (Enemy enemy in enemies)
             {
                 double closestX = Math.Clamp(enemy.centerX, player.playerhitbox.Left, player.playerhitbox.Right);  // Nähesten X-Punkt am player rect finden
@@ -278,10 +308,23 @@ namespace VampireSurvivorsProjekt
                         proj.toRemove = true;
                     }
                 }
+
+                if (activeGarlic != null && activeGarlic.isReadyToDamage == true)
+                {
+                    if (distance <= activeGarlic.range )
+                    {
+                        enemy.health -= activeGarlic.damage;
+                        damageTexts.Add(new DamageText(enemy.centerX, enemy.centerY, activeGarlic.damage, GameCanvas));
+
+                        if (enemy.health <= 0) enemy.isdead = true;
+                    }
+                }
             }
 
-            double playerCenterX = player.playerXPos + (player.playerchar.Width / 2);
-            double playerCenterY = player.playerYPos + (player.playerchar.Height / 2);
+            if(activeGarlic != null && activeGarlic.isReadyToDamage == true)
+            {
+                activeGarlic.isReadyToDamage = false;
+            }
 
             foreach(ExperienceOrb orb in ExpOrbsList)
             {
@@ -299,6 +342,8 @@ namespace VampireSurvivorsProjekt
                     }
                 }
             }
+
+ 
         }
 
         private void StartGame_Click(object sender, RoutedEventArgs e)

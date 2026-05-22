@@ -12,8 +12,7 @@ namespace VampireSurvivorsProjekt
     public class Weapon
     {
         public double damage;
-        double range;
-        double level;
+        public double range;
         public double attacksPerSecond;
         public double cooldownTimer;
         public Weapon(double damage, double attacksPerSecond, double range)
@@ -21,7 +20,6 @@ namespace VampireSurvivorsProjekt
             this.damage = damage;
             this.attacksPerSecond = attacksPerSecond;
             this.range = range;
-            this.level = 1;
             this.cooldownTimer = 0;
         }
 
@@ -125,6 +123,34 @@ namespace VampireSurvivorsProjekt
             }
         }
 
+    }
+
+    public class Garlic : Weapon
+    {
+        public Ellipse auraVisual;
+        public bool isReadyToDamage = false;
+
+        public Garlic() : base(2, 2, 80) // range ist hier radius
+        {
+            auraVisual = new Ellipse
+            {
+                Width = range * 2,
+                Height = range * 2,
+                Fill = new SolidColorBrush(Color.FromArgb(50, 128, 0, 128)),
+                Stroke = Brushes.Purple,
+                StrokeThickness = 1
+            };
+        }
+
+        public void UpdateGarlic(double deltaTime)
+        {
+            base.UpdateWeapon(deltaTime);
+
+            if (cooldownTimer >= 1 / attacksPerSecond)
+            {
+                isReadyToDamage = true;
+            }
+        }
     }
 
 }
