@@ -25,37 +25,29 @@ namespace VampireSurvivorsProjekt
         public double radius;
         public bool isdead = false;
         public Ellipse debugCenterPoint;
-        public double health = 10;
+        public double health;
 
-        public Enemy(double enemyXPos, double enemyYPos,  double enemySpeed, Canvas GameCanvas)
+        public Enemy(double enemyXPos, double enemyYPos, double enemySpeed, double maxHealth, double size, Brush color, Canvas GameCanvas)
         {
             this.enemyXPos = enemyXPos;
             this.enemyYPos = enemyYPos;
             this.enemySpeed = enemySpeed;
+            this.health = maxHealth;
+
             enemychar = new Ellipse();
-            enemychar.Fill = Brushes.Black;
-            enemychar.Height = 50; 
-            enemychar.Width = 50;
+            enemychar.Fill = color;
+            enemychar.Height = size;
+            enemychar.Width = size;
 
-       
-
-            radius = enemychar.Width / 2; // radius berechnen
-            centerX = enemyXPos + radius;
-            centerY = enemyYPos + radius;
-
-            debugCenterPoint = new Ellipse();
-            debugCenterPoint.Height = 5;
-            debugCenterPoint.Width = 5;
-            debugCenterPoint.Fill = Brushes.Blue;
-
-
+            radius = enemychar.Width / 2;
             GameCanvas.Children.Add(enemychar); // Neuen Kreis im Canvas erstellen bei jedem neuen enemy
-        }
+        } 
+     
 
         public void Update(double playerXPos, double playerYPos, double deltaTime)
         {
-            xDirection = (playerXPos ) - (enemyXPos ); 
-            yDirection = (playerYPos ) - (enemyYPos ); 
+            xDirection = playerXPos - enemyXPos; 
+            yDirection = playerYPos - enemyYPos; 
             double length = Math.Sqrt(xDirection * xDirection + yDirection * yDirection); // berechnung zur vektor normalisierung
             if(length > 0) // Division durch 0 verhindern
             {
@@ -63,36 +55,27 @@ namespace VampireSurvivorsProjekt
                 yDirection = yDirection / length;
             }
 
-
             enemyXPos += xDirection * enemySpeed * deltaTime;
             enemyYPos += yDirection * enemySpeed * deltaTime;
-
-            /*
-            if(xDirection > 0)
-            {
-                enemyXPos += xDirection * enemySpeed * deltaTime;
-            }
-            if(xDirection < 0)
-            {
-                enemyXPos -= xDirection * enemySpeed * deltaTime;
-            }
-            if(yDirection > 0)
-            {
-                enemyYPos += yDirection * enemySpeed * deltaTime;
-            }
-            if(yDirection < 0)
-            {
-                enemyYPos -= yDirection * enemySpeed * deltaTime;
-            }
-            */
-
-
         }
 
         public void getCenter()
         {
             centerX = enemyXPos + radius;
             centerY = enemyYPos + radius;
+        }
+
+        public class Zombie : Enemy
+        {
+            public Zombie(double x, double y, Canvas canvas) : base(x, y, 100, 10, 50, Brushes.Black, canvas) { }
+        }
+        public class Bat : Enemy
+        {
+            public Bat(double x, double y, Canvas canvas) : base(x, y, 170, 3, 30, Brushes.DarkRed, canvas) { }
+        }
+        public class Oger : Enemy
+        {
+            public Oger(double x, double y, Canvas canvas) : base(x, y, 50, 45, 80, Brushes.DarkGreen, canvas) { }
         }
     }
 }
