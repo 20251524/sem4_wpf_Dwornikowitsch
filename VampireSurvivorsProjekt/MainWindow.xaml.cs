@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
@@ -15,7 +16,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Data.SQLite;
+using static VampireSurvivorsProjekt.Enemy;
 
 namespace VampireSurvivorsProjekt
 {
@@ -742,21 +743,51 @@ namespace VampireSurvivorsProjekt
             int maxX = (int)(cameraX + GameCanvas.ActualWidth); // vom linken Rand des Bildschirms zum rechten
             int minY = (int)cameraY; // oben links
             int maxY = (int)(cameraY + GameCanvas.ActualHeight); // von oben nach unten
+            double spawnX = 0;
+            double spawnY = 0;
             switch (rnd)
             {
                 case 1:
-                    enemies.Add(new Enemy(random.Next(minX, maxX),cameraY -50, 50, GameCanvas)); // oben
+                    spawnX = random.Next(minX, maxX);
+                    spawnY = cameraY - 50; // oben
                     break;
                 case 2:
-                    enemies.Add(new Enemy(random.Next(minX, maxX), cameraY + windowHeight + 50 , 50, GameCanvas)); // unten
+                    spawnX = random.Next(minX, maxX);
+                    spawnY = cameraY + windowHeight + 50; // unten
                     break;
                 case 3:
-                    enemies.Add(new Enemy(cameraX -50, random.Next(minY, maxY), 50, GameCanvas)); // links
+                    spawnX = cameraX -50;
+                    spawnY = random.Next(minY, maxY); // links
                     break;
                 case 4:
-                    enemies.Add(new Enemy(cameraX + windowWidth + 50, random.Next(minY, maxY), 50, GameCanvas)); // rechts
+                    spawnX = cameraX + windowWidth + 50;
+                    spawnY = random.Next(minY, maxY); // rechts
                     break;
-            }   
+            }
+
+            int r = random.Next(1, 101);
+
+            if (survivedTime < 30) // ersten 30sec nur zombies
+            {
+                enemies.Add(new Zombie(spawnX, spawnY, GameCanvas));
+            }
+            else if (survivedTime >= 30 && survivedTime < 90) // 0:30 - 1:30 Fledermäuse
+            {
+                if (r <= 70) enemies.Add(new Zombie(spawnX, spawnY, GameCanvas)); // 70% Chance
+                else enemies.Add(new Bat(spawnX, spawnY, GameCanvas)); // 30% Chance
+            }
+            else // ab 1:30 Oger
+            {
+                if (r <= 50) enemies.Add(new Zombie(spawnX, spawnY, GameCanvas)); // 50%
+                else if (r <= 85) enemies.Add(new Bat(spawnX, spawnY, GameCanvas)); // 35%
+                else enemies.Add(new Oger(spawnX, spawnY, GameCanvas)); // 15% 
+            }
+
+            // Spawn interval jedes mal wenn ein gegner gespawnt wird reduzieren für scaling
+            if (spawnInterval > 0.5)
+            {
+                spawnInterval -= 0.005;
+            }
         }
 
 
