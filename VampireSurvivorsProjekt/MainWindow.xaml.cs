@@ -66,7 +66,7 @@ namespace VampireSurvivorsProjekt
         int garlicLevel = 0;
 
         //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
-        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken", "garlic" };
+        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken", "garlic", "heal" };
 
         // Erstellt die datei vs_stats.db 
         string dbPath = "Data Source=vs_stats.db";
@@ -574,6 +574,10 @@ namespace VampireSurvivorsProjekt
                     {
                         fireballStatText = $"Schaden: {activeFireball.damage} -> {activeFireball.damage + 5}";
                     }
+                    else if (fireballLevel == 4)
+                    {
+                        fireballStatText = $"Angriffstempo: {activeFireball.attacksPerSecond} -> {activeFireball.attacksPerSecond + 0.5}";
+                    }
                     else
                     {
                         fireballStatText = $"Schaden: {activeFireball.damage} -> {activeFireball.damage + 2}";
@@ -592,6 +596,18 @@ namespace VampireSurvivorsProjekt
                     else if(shurikenLevel == 2)
                     {
                         shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 5}";
+                    }
+                    if (shurikenLevel == 3)
+                    {
+                        shurikenStatText = $"Angriffstempo: {activeShuriken.attacksPerSecond} -> {activeShuriken.attacksPerSecond + 0.5}";
+                    }
+                    else if (shurikenLevel == 4)
+                    {
+                        shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 5}";
+                    }
+                    else
+                    {
+                        shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 2}";
                     }
                     if (shurikenLevel == 0)
                     {
@@ -622,11 +638,19 @@ namespace VampireSurvivorsProjekt
                     {
                         btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nRadius +15";
                     }
+                    else if (garlicLevel == 4)
+                    {
+                        btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nRadius +15";
+                    }
                     else
                     {
                         btn.Content = $"Knoblauch (Lvl {garlicLevel} -> {garlicLevel + 1})\nDamage +1";
                     }
-                        break;
+                    break;
+
+                case "heal":
+                    btn.Content = $"Brathähnchen (Sofort-Effekt)\nStellt 30% deines Lebens wieder her.";
+                    break;
             }
         }
 
@@ -667,6 +691,10 @@ namespace VampireSurvivorsProjekt
                     {
                         activeFireball.damage += 5;
                     }
+                    else if (fireballLevel == 5)
+                    {
+                        activeFireball.attacksPerSecond += 0.5;
+                    }
                     else
                     {
                         activeFireball.damage += 2;
@@ -688,6 +716,18 @@ namespace VampireSurvivorsProjekt
                     {
                         activeShuriken.damage += 5;
                     }
+                    else if (shurikenLevel == 4)
+                    {
+                        activeShuriken.attacksPerSecond += 0.5;
+                    }
+                    else if (shurikenLevel == 5)
+                    {
+                        activeShuriken.damage += 5;
+                    }
+                    else
+                    {
+                        activeShuriken.damage += 2;
+                    }
                     break;
 
                 case "garlic":
@@ -708,11 +748,26 @@ namespace VampireSurvivorsProjekt
                     {
                         activeGarlic.range += 15;
                     }
+                    else if (garlicLevel == 5)
+                    {
+                        activeGarlic.range += 15;
+                    }
                     else
                     {
                         activeGarlic.damage += 1;
                     }
-                        break;
+                    break;
+
+                case "heal":
+                    // 30% der HP als heal und verhindern, dass der spieler mehr als MAXHP hat 
+                    double healAmount = player.maxHp * 0.3;
+                    player.currentHp += healAmount;
+                    if(player.currentHp > player.maxHp)
+                    {
+                        player.currentHp = player.maxHp;
+                    }
+                    HpBar.Value = player.currentHp;
+                    break;
             }
 
             // UI schließen und Pause beenden
