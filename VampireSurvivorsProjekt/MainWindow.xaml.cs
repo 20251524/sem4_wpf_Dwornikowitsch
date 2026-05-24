@@ -54,6 +54,7 @@ namespace VampireSurvivorsProjekt
 
         string playerName = "Spieler 1";
         int totalKills = 0;
+        int currentLevel = 1;
         double survivedTime = 0; // Misst die überlebten Sekunden im Spiel
 
         bool gameStarted = false;
@@ -345,6 +346,7 @@ namespace VampireSurvivorsProjekt
                         {
                             enemy.isdead = true;
                             totalKills++;
+                            TxtKillsDisplay.Text = $"KILLS: {totalKills}";
                         }
                         proj.toRemove = true;
                     }
@@ -526,6 +528,8 @@ namespace VampireSurvivorsProjekt
 
         private void TriggerLevelUp()
         {
+            currentLevel++;
+            TxtLevelDisplay.Text = $"LEVEL: {currentLevel}";
             isPaused = true;
             stopwatch.Stop(); // Stopwatch stoppen damit delta time keine probleme macht sonst teleportation bei gegnern/projektilen
             LevelUpMenu.Visibility = Visibility.Visible;

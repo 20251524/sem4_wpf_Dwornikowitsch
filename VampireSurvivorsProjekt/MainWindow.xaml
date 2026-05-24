@@ -33,6 +33,19 @@
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,40,0,0">
             <TextBlock Text="LEBEN:" Foreground="Red" FontWeight="Bold" FontSize="12" Margin="0,0,0,2"/>
             <ProgressBar x:Name="HpBar" Width="200" Height="15" Background="#330000" Foreground="Red" Minimum="0"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="30">
+                <TextBlock Name="TxtLevelDisplay" 
+               Text="LEVEL: 1" 
+               FontSize="22" 
+               FontWeight="Bold" 
+               Foreground="White"/>
+                <TextBlock Name="TxtKillsDisplay" 
+               Text="KILLS: 0" 
+               FontSize="18" 
+               FontWeight="Bold" 
+               Foreground="Crimson" 
+               Margin="0,5,0,0"/>
+            </StackPanel>
         </StackPanel>
 
         <TextBlock Name="TxtInGameTimer" 
