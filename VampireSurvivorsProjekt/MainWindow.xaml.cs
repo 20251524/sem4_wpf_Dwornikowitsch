@@ -448,6 +448,10 @@ namespace VampireSurvivorsProjekt
             survivedTime = 0;
             XpBar.Maximum = 10;
             XpBar.Value = 0;
+            currentLevel = 1;
+            totalKills = 0;
+            TxtLevelDisplay.Text = "LEVEL: 1";
+            TxtKillsDisplay.Text = "KILLS: 0";
 
             // lvl zurücksetzen
             speedLevel = 1;
@@ -493,6 +497,10 @@ namespace VampireSurvivorsProjekt
             XpBar.Maximum = 10;
             XpBar.Value = 0;
             TxtInGameTimer.Text = "00:00";
+            currentLevel = 1;
+            totalKills = 0;
+            TxtLevelDisplay.Text = "LEVEL: 1";
+            TxtKillsDisplay.Text = "KILLS: 0";
 
             speedLevel = 1;
             rangeLevel = 1;
@@ -1091,6 +1099,13 @@ namespace VampireSurvivorsProjekt
                 else
                 {
                     fIsPressed = false;
+                }
+            }
+            if (e.Key == Key.X) 
+            { 
+                if(debugmode == true)
+                {
+                    TriggerGameOver();
                 }
             }
         }
