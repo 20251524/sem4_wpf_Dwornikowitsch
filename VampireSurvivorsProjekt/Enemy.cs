@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
+using System.Windows;
 
 namespace VampireSurvivorsProjekt
 {
@@ -41,6 +42,11 @@ namespace VampireSurvivorsProjekt
 
             radius = enemychar.Width / 2;
             GameCanvas.Children.Add(enemychar); // Neuen Kreis im Canvas erstellen bei jedem neuen enemy
+
+            debugCenterPoint = new Ellipse();
+            debugCenterPoint.Height = 6;
+            debugCenterPoint.Width = 6;
+            debugCenterPoint.Fill = Brushes.Red;
         } 
      
 
@@ -67,15 +73,53 @@ namespace VampireSurvivorsProjekt
 
         public class Zombie : Enemy
         {
-            public Zombie(double x, double y, Canvas canvas) : base(x, y, 100, 10, 50, Brushes.Black, canvas) { }
+            public Zombie(double x, double y, Canvas canvas) : base(x, y, 100, 10, 50, CreateZombieBrush(), canvas) { }
+
+            private static Brush CreateZombieBrush()
+            {
+                RadialGradientBrush brush = new RadialGradientBrush();
+                brush.GradientOrigin = new Point(0.3, 0.3);
+                brush.Center = new Point(0.5, 0.5);
+                brush.GradientStops.Add(new GradientStop(Colors.SlateGray, 0.0));
+                brush.GradientStops.Add(new GradientStop(Colors.DarkSlateGray, 0.7));
+                brush.GradientStops.Add(new GradientStop(Colors.Black, 1.0));
+                return brush;
+            }
         }
         public class Bat : Enemy
         {
-            public Bat(double x, double y, Canvas canvas) : base(x, y, 170, 3, 30, Brushes.DarkRed, canvas) { }
+            public Bat(double x, double y, Canvas canvas) : base(x, y, 170, 3, 30, CreateBatBrush(), canvas) { }
+
+            private static Brush CreateBatBrush()
+            {
+                RadialGradientBrush brush = new RadialGradientBrush();
+                brush.GradientOrigin = new Point(0.3, 0.3);
+                brush.Center = new Point(0.5, 0.5);
+                brush.GradientStops.Add(new GradientStop(Colors.Red, 0.0));
+                brush.GradientStops.Add(new GradientStop(Colors.DarkRed, 0.7));
+                brush.GradientStops.Add(new GradientStop(Colors.Purple, 1.0)); // Violetter Schatteneffekt
+                return brush;
+            }
         }
         public class Oger : Enemy
         {
-            public Oger(double x, double y, Canvas canvas) : base(x, y, 50, 45, 80, Brushes.DarkGreen, canvas) { }
+            public Oger(double x, double y, Canvas canvas) : base(x, y, 50, 45, 80, CreateOgerSkin(), canvas) { }
+
+            private static Brush CreateOgerSkin()
+            {
+                // Ein radialer Farbverlauf lässt den Vektor 3D-mäßig rund wirken!
+                RadialGradientBrush gradient = new RadialGradientBrush();
+                gradient.GradientOrigin = new Point(0.3, 0.3); // Lichtquelle oben links
+                gradient.Center = new Point(0.5, 0.5);
+
+                gradient.GradientStops.Add(new GradientStop(Colors.LimeGreen, 0.0));
+                gradient.GradientStops.Add(new GradientStop(Colors.DarkGreen, 0.8));
+                gradient.GradientStops.Add(new GradientStop(Colors.Black, 1.0));
+
+                return gradient;
+            }
         }
+
+
     }
 }

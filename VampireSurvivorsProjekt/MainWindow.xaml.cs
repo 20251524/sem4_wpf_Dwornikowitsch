@@ -529,6 +529,10 @@ namespace VampireSurvivorsProjekt
                     {
                         fireballStatText = $"Angriffstempo: {activeFireball.attacksPerSecond} -> {activeFireball.attacksPerSecond + 0.5}";
                     }
+                    else if(fireballLevel == 3)
+                    {
+                        fireballStatText = $"Schaden: {activeFireball.damage} -> {activeFireball.damage + 5}";
+                    }
                     else
                     {
                         fireballStatText = $"Schaden: {activeFireball.damage} -> {activeFireball.damage + 2}";
@@ -618,6 +622,10 @@ namespace VampireSurvivorsProjekt
                     {
                         activeFireball.attacksPerSecond += 0.5;
                     }
+                    else if(fireballLevel == 4)
+                    {
+                        activeFireball.damage += 5;
+                    }
                     else
                     {
                         activeFireball.damage += 2;
@@ -628,7 +636,6 @@ namespace VampireSurvivorsProjekt
                     shurikenLevel++;
                     if (shurikenLevel == 1)
                     {
-                        // Waffe wird zum ersten Mal erschaffen!
                         activeShuriken = new Shuriken();
                         shurikenLevel = 1;
                     }
