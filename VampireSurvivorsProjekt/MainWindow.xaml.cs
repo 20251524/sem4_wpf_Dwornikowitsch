@@ -91,6 +91,36 @@ namespace VampireSurvivorsProjekt
             CompositionTarget.Rendering += GameLoop;
             InitializeDatabase();
 
+            DrawingBrush grassTileBrush = new DrawingBrush();
+            grassTileBrush.TileMode = TileMode.Tile;
+            grassTileBrush.Viewport = new Rect(0, 0, 64, 64); // Größe einer einzelnen Kachel
+            grassTileBrush.ViewportUnits = BrushMappingMode.Absolute;
+
+            // Muster für die Kachel
+            GeometryDrawing tilePattern = new GeometryDrawing();
+
+            // Hintergrundfarbe
+            tilePattern.Brush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(20, 50, 20));
+            tilePattern.Geometry = new RectangleGeometry(new Rect(0, 0, 64, 64));
+
+            // Hellere Linien
+            GeometryDrawing linesPattern = new GeometryDrawing();
+            linesPattern.Pen = new Pen(new SolidColorBrush(System.Windows.Media.Color.FromRgb(25, 58, 25)), 1.0);
+            // Linien hinzüfugen. sorgt für den Kachel look
+            GeometryGroup gridGroup = new GeometryGroup();
+            gridGroup.Children.Add(new LineGeometry(new System.Windows.Point(0, 32), new System.Windows.Point(64, 32)));
+            gridGroup.Children.Add(new LineGeometry(new System.Windows.Point(32, 0), new System.Windows.Point(32, 64)));
+            linesPattern.Geometry = gridGroup;
+
+            // Beide Zeichnungen im Pinsel kombinieren
+            DrawingGroup backgroundGroup = new DrawingGroup();
+            backgroundGroup.Children.Add(tilePattern);
+            backgroundGroup.Children.Add(linesPattern);
+            grassTileBrush.Drawing = backgroundGroup;
+
+            // Pinsel zuweisen
+            GameCanvas.Background = grassTileBrush;
+
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -206,6 +236,16 @@ namespace VampireSurvivorsProjekt
 
                 Canvas.SetLeft(activeGarlic.auraVisual, playerCenterX - cameraX - activeGarlic.range);
                 Canvas.SetTop(activeGarlic.auraVisual, playerCenterY - cameraY - activeGarlic.range);
+            }
+
+            if (GameCanvas.Background is TileBrush tileBrush)
+            {
+                // Startpunkt des Musters synchron zur cam verschieben, % damit zahlen nicht unendlich groß werden
+                double tileSize = tileBrush.Viewport.Width;
+                double offsetX = -cameraX % tileSize;
+                double offsetY = -cameraY % tileSize;
+
+                tileBrush.Transform = new TranslateTransform(offsetX, offsetY);
             }
         }
 
