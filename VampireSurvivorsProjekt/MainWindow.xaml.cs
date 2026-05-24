@@ -557,7 +557,7 @@ namespace VampireSurvivorsProjekt
                     break;
 
                 case "range":
-                    btn.Content = $"Magnet (Lvl {rangeLevel} -> {rangeLevel + 1})\nRadius: {player.pickupRange} -> {player.pickupRange + 25}";
+                    btn.Content = $"Magnet (Lvl {rangeLevel} -> {rangeLevel + 1})\nExp Pickup Radius: {player.pickupRange} -> {player.pickupRange + 25}";
                     break;
 
                 case "fireball":
@@ -715,7 +715,7 @@ namespace VampireSurvivorsProjekt
                         activeShuriken = new Shuriken();
                         shurikenLevel = 1;
                     }
-                    if (shurikenLevel == 2)
+                    else if (shurikenLevel == 2)
                     {
                         activeShuriken.attacksPerSecond += 0.5;
                     }
