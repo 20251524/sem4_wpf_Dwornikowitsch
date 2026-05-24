@@ -66,7 +66,7 @@ namespace VampireSurvivorsProjekt
         int garlicLevel = 0;
 
         //Liste aller Upgrades die es gibt. Müssen mit dem ButtonTag übereinstimmen sonst probleme
-        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken", "garlic", "heal" };
+        List<string> upgradePool = new List<string> { "speed", "range", "fireball", "shuriken", "garlic", "heal", "maxhp" };
 
         // Erstellt die datei vs_stats.db 
         string dbPath = "Data Source=vs_stats.db";
@@ -605,7 +605,7 @@ namespace VampireSurvivorsProjekt
                     {
                         shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 5}";
                     }
-                    else
+                    else if(shurikenLevel > 4)
                     {
                         shurikenStatText = $"Schaden: {activeShuriken.damage} -> {activeShuriken.damage + 2}";
                     }
@@ -650,6 +650,11 @@ namespace VampireSurvivorsProjekt
 
                 case "heal":
                     btn.Content = $"Brathähnchen (Sofort-Effekt)\nStellt 30% deines Lebens wieder her.";
+                    break;
+
+                case "maxhp":
+                    double newMaxHp = player.maxHp + 20;
+                    btn.Content = $"Rüstung\nMax HP: {player.maxHp} -> {newMaxHp}";
                     break;
             }
         }
@@ -767,6 +772,14 @@ namespace VampireSurvivorsProjekt
                         player.currentHp = player.maxHp;
                     }
                     HpBar.Value = player.currentHp;
+                    break;
+
+                case "maxhp":
+                    player.maxHp += 20; 
+                    player.currentHp += 20;   
+
+                    HpBar.Maximum = player.maxHp;
+                    HpBar.Value = player.currentHp;             
                     break;
             }
 
