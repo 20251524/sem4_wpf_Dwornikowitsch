@@ -398,7 +398,7 @@ namespace VampireSurvivorsProjekt
             player.currentHp = player.maxHp; // Volles Leben garantieren
             HpBar.Maximum = player.maxHp;
             HpBar.Value = player.currentHp;
-
+            UpdateHpBarLength();
             StartScreen.Visibility = Visibility.Collapsed;
             gameStarted = true;
             isPaused = false;
@@ -473,6 +473,7 @@ namespace VampireSurvivorsProjekt
             player.playerSpeed = 150; 
             player.pickupRange = 100;
             player.currentHp = 100;
+            UpdateHpBarLength();
             GameCanvas.Children.Add(player.playerchar);
             gameStarted = true;
             isPaused = false;
@@ -516,6 +517,7 @@ namespace VampireSurvivorsProjekt
             HpBar.Maximum = player.maxHp;
             HpBar.Value = player.currentHp;
             damageCooldown = 0;
+            UpdateHpBarLength();
 
             gameStarted = false;
             isPaused = true;
@@ -779,7 +781,9 @@ namespace VampireSurvivorsProjekt
                     player.currentHp += 20;   
 
                     HpBar.Maximum = player.maxHp;
-                    HpBar.Value = player.currentHp;             
+                    HpBar.Value = player.currentHp;
+
+                    UpdateHpBarLength();
                     break;
             }
 
@@ -795,7 +799,10 @@ namespace VampireSurvivorsProjekt
             XpBar.Maximum *= 1.2;
             XpBar.Value = currentOverfill; // Falls man mehr XP gesammelt hat, als für das Lvl nötig war
         }
-
+        private void UpdateHpBarLength()
+        {
+            HpBar.Width = player.maxHp * 1.5;
+        }
         private void Cleanup()
         {
             for (int i = enemies.Count - 1; i >= 0; i--)
