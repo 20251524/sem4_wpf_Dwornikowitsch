@@ -48,9 +48,23 @@ namespace VampireSurvivorsProjekt
         public BlueOrb(double orbXPos, double orbYPos, Canvas GameCanvas) : base(orbXPos,orbYPos, 1, new Ellipse { Width = 20, Height = 20, Fill = Brushes.Blue }, GameCanvas) //Linke Klammer dynamische Werte die übergeben werden, rechte Klammer alle + fixe Wert
         {
 
-        }
-
-        
+        }   
     }
-    
+
+    public class GreenOrb : ExperienceOrb
+    {
+        public GreenOrb(double x, double y, Canvas GameCanvas) : base(x, y, 5, new Ellipse { Width = 20, Height = 20, Fill = Brushes.DarkGreen }, GameCanvas)
+        {
+
+        }
+    }
+
+    public class RedOrb : ExperienceOrb
+    {
+        public RedOrb(double x, double y, Canvas GameCanvas) : base(x, y, 25, new Ellipse { Width = 20, Height = 20, Fill = Brushes.Red }, GameCanvas)
+        {
+
+        }
+    }
+
 }

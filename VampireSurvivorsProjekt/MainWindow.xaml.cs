@@ -695,7 +695,22 @@ namespace VampireSurvivorsProjekt
                 {
                     GameCanvas.Children.Remove(enemies[i].enemychar);  // jeden enemychar entfernen bei dem isdead true ist
                     GameCanvas.Children.Remove(enemies[i].debugCenterPoint);
-                    ExpOrbsList.Add(new BlueOrb(enemies[i].centerX, enemies[i].centerY, GameCanvas));
+                    Random rnd = new Random();
+                    int chance = rnd.Next(1, 101);
+
+                    // Drop-Verteilung:
+                    if (chance <= 2) // 2% Chance 
+                    {
+                        ExpOrbsList.Add(new RedOrb(enemies[i].centerX, enemies[i].centerY, GameCanvas));
+                    }
+                    else if (chance <= 7) // 5% Chance 
+                    {
+                        ExpOrbsList.Add(new GreenOrb(enemies[i].centerX, enemies[i].centerY, GameCanvas));
+                    }
+                    else // 93% Chance
+                    {
+                        ExpOrbsList.Add(new BlueOrb(enemies[i].centerX, enemies[i].centerY, GameCanvas));
+                    }
                     enemies.RemoveAt(i);
                 }
             }
