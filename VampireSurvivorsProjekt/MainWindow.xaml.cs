@@ -471,7 +471,8 @@ namespace VampireSurvivorsProjekt
             player.playerXPos = 100;
             player.playerYPos = 100; 
             player.playerSpeed = 150; 
-            player.pickupRange = 100;  
+            player.pickupRange = 100;
+            player.currentHp = 100;
             GameCanvas.Children.Add(player.playerchar);
             gameStarted = true;
             isPaused = false;
