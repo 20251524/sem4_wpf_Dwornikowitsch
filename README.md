@@ -16,3 +16,7 @@ Der Debugmodus hat folgende Features:
 
 * **<kbd>F</kbd> – Debug-Modus umschalten:** Aktiviert/Deaktiviert die Anzeige der unsichtbaren Hitboxen, des Sammelradius (Magnet) und der Mittelpunkte der Gegner und Exp Orbs.
 * **<kbd>X</kbd> – Sofortiges Game Over:** *Nur aktiv, wenn der Debug-Modus eingeschaltet ist!* Löst sofort manuell ein Game Over aus, um z. B. den Highscore-Speicher oder den Game-Over-Bildschirm zu testen.
+
+## Verwendete Lernressourcen
+
+https://www.w3schools.com/cs/index.php | Vorallem C# Classes section
