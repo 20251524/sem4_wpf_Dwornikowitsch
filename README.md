@@ -1,3 +1,17 @@
+## Spielprinzip
+
+Dieses Spiel ist ein actiongeladenes **2D-Action-Roguelike (Bullet Heaven / Horde Survival)**. Das Ziel ist denkbar einfach, aber herausfordernd: **Überlebe so lange wie möglich gegen unendliche Horden von Monstern!**
+
+### Kern-Gameplay:
+1. **Dauerhafte Bewegung:** Du steuerst den Helden mit <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> durch eine offene Welt. Deine Waffen (wie der Feuerball, Shuriken oder Knoblauch-Aura) greifen **vollautomatisch** in festen Zeitintervallen an. Du musst dich voll und ganz auf das Ausweichen konzentrieren!
+2. **EXP sammeln & Aufleveln:** Besiegte Gegner lassen Erfahrungsorbs fallen. Sammelst du genug davon ein, steigst du ein Level auf.
+3. **Mächtige Upgrades:** Bei jedem Level-Up pausiert das Spiel und du darfst aus zufälligen Upgrades wählen. Verbessere dein Lauftempo, erhöhe dein maximales Leben oder verstärke deine Waffen in (mehr Schaden, größere Reichweite, höheres Angriffstempo).
+4. **Strategisches Heilen:** Bist in Bedrängnis, kannst du saftige Brathähnchen wählen, um deine Lebenspunkte mitten im Kampf wieder aufzufüllen.
+
+**Das Motto lautet:** Jede Sekunde spawnen mehr Gegner (Zombies, Fledermäuse, Oger). Wie viele Kills schaffst du, bevor du überrannt wirst?
+Die **Highscoreliste** zeigt die 5 besten Runs an, sortiert nach überlebter Zeit.
+
+
 ### Steuerung
 | Taste | Aktion |
 | :---: | --- |
